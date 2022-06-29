@@ -1,0 +1,163 @@
+{% extends 'meeting/base/base.html' %} {% load static %} {% block site_css %}
+<style>
+    .u-section-1 .u-sheet-1 {
+        min-height: 914px;
+    }
+    
+    .u-section-1 .u-shape-1 {
+        width: 228px;
+        height: 228px;
+        background-image: linear-gradient(#c5c9f9, #f01965);
+        margin: 60px auto 0 0;
+    }
+    
+    .u-section-1 .u-image-1 {
+        height: 465px;
+        width: 758px;
+        margin: -140px auto 0 94px;
+    }
+    
+    .u-section-1 .u-group-1 {
+        width: 497px;
+        min-height: 442px;
+        margin: -199px 0 60px auto;
+    }
+    
+    .u-section-1 .u-container-layout-1 {
+        padding: 30px 40px;
+    }
+    
+    .u-section-1 .u-text-1 {
+        margin: 0;
+    }
+    
+    .u-section-1 .u-text-2 {
+        font-size: 1.25rem;
+        font-weight: 300;
+        margin: 20px 0 0;
+    }
+    
+    .u-section-1 .u-text-3 {
+        font-weight: 300;
+        font-size: 1.125rem;
+        margin: 20px 0 0;
+    }
+    
+    .u-section-1 .u-btn-1 {
+        border-style: none none solid;
+        padding: 0;
+    }
+    
+    .u-section-1 .u-btn-2 {
+        background-image: none;
+        text-transform: uppercase;
+        font-size: 1.125rem;
+        letter-spacing: 2px;
+        margin: 32px auto 0 0;
+        padding: 14px 32px 15px;
+    }
+    
+    @media (max-width: 991px) {
+        .u-section-1 .u-sheet-1 {
+            min-height: 916px;
+        }
+        .u-section-1 .u-image-1 {
+            height: 344px;
+            width: 561px;
+            margin-top: -146px;
+            margin-right: 73px;
+            margin-left: auto;
+        }
+        .u-section-1 .u-group-1 {
+            min-height: 403px;
+            margin-top: -72px;
+        }
+        .u-section-1 .u-container-layout-1 {
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .u-section-1 .u-text-2 {
+            font-size: 1.125rem;
+        }
+    }
+    
+    @media (max-width: 767px) {
+        .u-section-1 .u-sheet-1 {
+            min-height: 819px;
+        }
+        .u-section-1 .u-shape-1 {
+            width: 204px;
+            height: 204px;
+        }
+        .u-section-1 .u-image-1 {
+            height: 280px;
+            width: 433px;
+            margin-top: -130px;
+            margin-right: 32px;
+        }
+        .u-section-1 .u-group-1 {
+            width: 436px;
+            min-height: 405px;
+            margin-top: -60px;
+        }
+        .u-section-1 .u-container-layout-1 {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .u-section-1 .u-text-2 {
+            font-size: 1rem;
+        }
+        .u-section-1 .u-text-3 {
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 575px) {
+        .u-section-1 .u-sheet-1 {
+            min-height: 797px;
+        }
+        .u-section-1 .u-shape-1 {
+            width: 170px;
+            height: 170px;
+        }
+        .u-section-1 .u-image-1 {
+            height: 201px;
+            width: 280px;
+            margin-top: -109px;
+            margin-right: 0;
+        }
+        .u-section-1 .u-group-1 {
+            min-height: 447px;
+            width: 290px;
+            margin-top: -32px;
+            margin-right: auto;
+            margin-left: 0;
+        }
+    }
+</style>
+{% endblock %} {% block body %}
+
+<body class="u-body u-xl-mode">
+
+    <section class="u-clearfix u-section-1" id="carousel_8568">
+        <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-sm u-valign-middle-xl u-valign-middle-xs u-sheet-1">
+            <div class="u-gradient u-shape u-shape-circle u-shape-1"></div>
+            <img class="u-image u-image-round u-radius-20 u-image-1" src="{% static 'meeting/images/ghgh8.jpg' %}" data-image-width="1200" data-image-height="736">
+            <div class="u-align-left u-container-style u-grey-5 u-group u-radius-20 u-shape-round u-group-1">
+                <div class="u-container-layout u-valign-middle u-container-layout-1">
+                    <h2 class="u-text u-text-1">About Us</h2>
+                    <p class="u-text u-text-2">We are a Team from Mulmetimedia University <br> which studying a project of Smart Meeting System.</p>
+                    <p class="u-text u-text-3">Image from <a href="https://www.freepik.com/photos/business" class="u-active-none u-border-1 u-border-active-palette-2-base u-border-black u-border-hover-palette-2-base u-btn u-button-link u-button-style u-hover-none u-none u-text-body-color u-btn-1">Freepik</a>
+                    </p>
+                    <a href="{% url 'meeting' %}" class="u-btn u-btn-round u-button-style u-color-scheme-summer-time u-color-style-multicolor-1 u-palette-2-base u-radius-50 u-btn-2">Learn more</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+    {% endblock %}

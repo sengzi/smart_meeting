@@ -1,0 +1,158 @@
+{% extends 'meeting/base/base.html' %} {% load static %} {% block site_css %}
+
+<style>
+    .column-3 {
+        float: left;
+        width: 30%;
+        padding: 10px;
+    }
+    
+    .column-quater {
+        float: left;
+        width: 25%;
+        padding: 10px;
+    }
+    
+    .column-half {
+        float: left;
+        width: 50%;
+        padding: 10px;
+    }
+    
+    .column-7 {
+        float: left;
+        width: 70%;
+        padding: 10px;
+    }
+    
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    
+    .alert {
+        padding: 20px;
+        background-color: #04AA6D;
+        /* Red */
+        color: white;
+        margin-bottom: 15px;
+    }
+    /* The close button */
+    
+    .closebtn {
+        margin-left: 15px;
+        background-color: #04AA6D;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    /* When moving the mouse over the close button */
+    
+    .closebtn:hover {
+        color: black;
+    }
+</style>
+
+{% endblock %} {% block body %} {% if messages %} {% for message in messages %}
+<div class="alert">
+    <button type="button" class="closebtn" onclick="this.parentElement.style.display='none';">
+
+      </button>
+    <strong>{{message}}<strong>
+    </div>
+ {% endfor %}
+{% endif %}
+<section class="u-clearfix u-section-1" id="carousel_5e1d">
+    <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-sm u-sheet-1">
+        <h1 class="u-align-center u-custom-font u-text u-text-palette-5-dark-1 u-text-1">Smart Meetings</h1>
+        <p class="u-align-center u-text u-text-2">We power the scheduling of meetings for tens of thousands of companies. <br><a href="https://prod.liveshare.vsengsaas.visualstudio.com/join?D974671F12442ACAC5D132AADBBAE52954A1">Modify Page</a></p>
+        <a href="#" class="u-btn u-button-style u-palette-3-base u-btn-1" id="getStart">Get Start</a>
+        <div class="u-opacity u-opacity-55 u-shape u-shape-svg u-text-palette-5-dark-1 u-shape-1">
+            <svg class="u-svg-link" preserveAspectRatio="none" viewBox="0 0 160 160">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-1c42"></use>
+      </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xml:space="preserve" class="u-svg-content" viewBox="0 0 160 160" x="0px" y="0px" id="svg-1c42">
+        <path d="M114.3,152.3l38-38C144.4,130.9,130.9,144.4,114.3,152.3z M117.1,9.1l-108,108c0.8,1.6,1.7,3.2,2.7,4.8l110-110
+	C120.3,10.9,118.7,10,117.1,9.1z M97.5,2L2,97.5c0.4,2,1,4,1.5,5.9l99.9-99.9C101.5,2.9,99.5,2.4,97.5,2z M80,160c2,0,4-0.1,5.9-0.2
+	l73.9-73.9c0.1-2,0.2-3.9,0.2-5.9c0-0.6,0-1.2,0-1.9L78.1,160C78.8,160,79.4,160,80,160z M34.9,146.1c1.5,1,3,2,4.6,2.9L149,39.5
+	c-0.9-1.6-1.9-3.1-2.9-4.6L34.9,146.1z M132.7,19.8L19.8,132.7c1.2,1.3,2.3,2.6,3.6,3.9L136.6,23.4C135.3,22.2,134,21,132.7,19.8z
+	 M59.6,157.4l97.8-97.8c-0.5-1.9-1.1-3.8-1.7-5.7L53.9,155.6C55.8,156.3,57.7,156.9,59.6,157.4z M7.6,45.9L45.9,7.6
+	C29.1,15.5,15.5,29.1,7.6,45.9z M80,0c-2.6,0-5.1,0.1-7.6,0.4l-72,72C0.1,74.9,0,77.4,0,80c0,0.1,0,0.2,0,0.2L80.2,0
+	C80.2,0,80.1,0,80,0z"></path>
+      </svg>
+        </div>
+        <div class="u-align-left u-image u-image-circle u-image-1" data-image-width="1470" data-image-height="900"></div>
+        <div class="u-align-left u-image u-image-circle u-image-2"></div>
+        <div class="u-align-left u-image u-image-circle u-image-3"></div>
+        <div class="u-palette-3-base u-preserve-proportions u-shape u-shape-circle u-shape-2"></div>
+        <div class="u-shape u-shape-svg u-text-palette-5-light-1 u-shape-3">
+            <svg class="u-svg-link" preserveAspectRatio="none" viewBox="0 0 160 160">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-3be9"></use>
+      </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xml:space="preserve" class="u-svg-content" viewBox="0 0 160 160" x="0px" y="0px" id="svg-3be9" style="enable-background:new 0 0 160 160;">
+        <path d="M80,30c27.6,0,50,22.4,50,50s-22.4,50-50,50s-50-22.4-50-50S52.4,30,80,30 M80,0C35.8,0,0,35.8,0,80s35.8,80,80,80
+	s80-35.8,80-80S124.2,0,80,0L80,0z"></path>
+      </svg>
+        </div>
+        <!-- <p class="u-align-center u-text u-text-grey-50 u-text-3">Image from <a href="https://www.freepik.com/photos/background" class="u-active-none u-border-1 u-border-grey-75 u-btn u-button-link u-button-style u-hover-none u-none u-text-grey-50 u-btn-2">Freepik</a>
+        </p> -->
+    </div>
+</section>
+<!-- <section class="u-clearfix u-section-1" id="carousel_5e1d">
+    <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-sm u-sheet-1">
+        <h1 class="u-align-center u-custom-font u-text u-text-palette-5-dark-1 u-text-1">How Arrangr Works</h1>
+        <div class="row">
+            <div class="column-3">
+                <h4>Connect Your Cal</h4>
+            </div>
+            <div class="column-3">
+                <h4>Automated Process</h4>
+            </div>
+            <div class="column-3">
+                <h4>Platform</h4>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+<script>
+    jQuery(document).ready(function() {
+        jQuery("#getStart").click(function() {
+            Swal.fire({
+                title: 'Get Started!',
+                text: "Create a free account to get more features at your disposal:",
+                showDenyButton: true,
+                confirmButtonText: 'Register New Account',
+                denyButtonText: `Try as a Guest`,
+            }).then((result) => {
+                if (result.isConfirmed) { //Register New Account
+                    location.replace("{% url 'register' %}")
+                } else if (result.isDenied) { //Try as a Guest
+                    location.replace("{% url 'group_meeting' %}")
+                    /*Swal.fire({
+                        title: 'Try as a Guest',
+                        text: 'What do you want to do?',
+                        //showCancelButton: true,
+                        confirmButtonText: 'Arrange a Group Event',
+                        //cancelButtonText: 'Arrange a Group Event',
+                        confirmButtonColor: '#f1c50e',
+                        //cancelButtonColor: '#f1c50e',
+                    }).then((result) => {
+                        if (result.isConfirmed) { //Register New Account
+                            Swal.fire('Saved!', '', 'success')
+                        } else {
+                            location.replace("{% url 'group_meeting' %}")
+                        //}
+                    });*/
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,778 @@
+{% extends 'meeting/base/base.html' %} {% load static %} {% block site_css %}
+
+<style>
+    .stepper-wrapper {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    
+    .content-box {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        position: relative;
+        overflow: hidden;
+        max-width: 65%;
+        min-height: 100px;
+        margin: auto;
+        margin-bottom: 2%;
+    }
+    
+    .duration {
+        position: absolute;
+        margin-left: 4%;
+        width: 22%;
+        box-shadow: 0 0 3px 0 rgb(0 0 0 / 20%);
+        background: #fff;
+        z-index: 2;
+        overflow: scroll;
+        height: 100px;
+    }
+    
+    #duration {
+        color: lightblue;
+        cursor: pointer;
+    }
+    
+    .duration_option:hover {
+        cursor: pointer;
+        background-color: lightgray;
+    }
+    
+    .remove-cross {
+        color: grey;
+        cursor: pointer;
+    }
+    
+    .button-box {
+        background-color: #fff;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        max-width: 65%;
+        min-height: 100px;
+        margin: auto;
+        margin-bottom: 2%;
+    }
+    
+    .content-header {
+        font-size: 19px;
+        font-weight: 500;
+        padding: 2%;
+    }
+    
+    .content-body {
+        margin-left: 2%;
+        margin-bottom: 1%;
+    }
+    
+    .column-3 {
+        float: left;
+        width: 30%;
+        padding: 10px;
+    }
+    
+    .column-quater {
+        float: left;
+        width: 25%;
+        padding: 10px;
+    }
+    
+    .column-half {
+        float: left;
+        width: 50%;
+        padding: 10px;
+    }
+    
+    .column-7 {
+        float: left;
+        width: 70%;
+        padding: 10px;
+    }
+    
+    .rcorners {
+        border-radius: 100%;
+        box-shadow: 0 0 3px 0 rgb(4 5 6 / 20%);
+        width: 25%;
+        height: 25px;
+        margin: auto;
+    }
+    
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    
+    .stepper-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        @media (max-width: 768px) {
+            font-size: 12px;
+        }
+    }
+    
+    .stepper-item::before {
+        position: absolute;
+        content: "";
+        border-bottom: 2px solid #ccc;
+        width: 100%;
+        top: 20px;
+        left: -50%;
+        z-index: 2;
+    }
+    
+    .stepper-item::after {
+        position: absolute;
+        content: "";
+        border-bottom: 2px solid #ccc;
+        width: 100%;
+        top: 20px;
+        left: 50%;
+        z-index: 2;
+    }
+    
+    .stepper-item .step-counter {
+        position: relative;
+        z-index: 5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #ccc;
+        margin-bottom: 6px;
+    }
+    
+    .stepper-item.active {
+        font-weight: bold;
+    }
+    
+    .stepper-item.completed .step-counter {
+        background-color: #f1c50e;
+        color: white;
+        cursor: pointer;
+    }
+    
+    .stepper-item.completed::after {
+        position: absolute;
+        content: "";
+        border-bottom: 2px solid #f1c50e;
+        width: 100%;
+        top: 20px;
+        left: 50%;
+        z-index: 3;
+    }
+    
+    .stepper-item:first-child::before {
+        content: none;
+    }
+    
+    .stepper-item:last-child::after {
+        content: none;
+    }
+    
+    .outer {
+        position: relative;
+    }
+    
+    .calendar {
+        margin: 0 auto;
+        max-width: 1280px;
+        min-width: 500px;
+        box-shadow: 0px 30px 50px rgba(0, 0, 0, 0.2), 0px 3px 7px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+    
+    .wrap {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        max-width: 1280px;
+        height: 500px;
+        border-radius: 8px;
+    }
+    
+    thead {
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    thead th {
+        text-align: center;
+        width: 100%;
+    }
+    
+    tbody {
+        position: relative;
+        top: 12px;
+    }
+    
+    .calendar-table {
+        background: #fff;
+        width: 100%;
+        height: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+    
+    .headcol {
+        width: 60px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.5);
+        padding: 0.25rem 0;
+        text-align: center;
+        border: 0;
+        position: relative;
+        top: -12px;
+        border-bottom: 1px solid transparent;
+    }
+    
+    thead th {
+        font-size: 1rem;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.9);
+        padding: 1rem;
+    }
+    
+    thead {
+        z-index: 2;
+        background: white;
+        border-bottom: 2px solid #ddd;
+    }
+    
+    tr,
+    tr td {
+        height: 20px;
+    }
+    
+    td {
+        text-align: center;
+        top: -12px;
+    }
+    
+    tr:nth-child(odd) td:not(.headcol) {
+        border-bottom: 1px solid #e8e8e8;
+    }
+    
+    tr:nth-child(even) td:not(.headcol) {
+        border-bottom: 1px solid #eee;
+    }
+    
+    tr td {
+        border-right: 1px solid #eee;
+        padding: 0;
+        white-space: none;
+        word-wrap: nowrap;
+    }
+    
+    tbody tr td {
+        position: relative;
+        vertical-align: top;
+        height: 40px;
+        padding: 0.25rem 0.25rem 0 0.25rem;
+        width: auto;
+    }
+    
+    .secondary {
+        color: rgba(0, 0, 0, 0.4);
+    }
+    
+    .checkbox {
+        display: none;
+    }
+    
+    .checkbox+label {
+        border: 0;
+        outline: 0;
+        width: 100px;
+        height: 100px;
+        background: white;
+        color: transparent;
+        display: block;
+        display: none;
+    }
+    
+    .checkbox:checked+label {
+        border: 0;
+        outline: 0;
+        width: 100%;
+        height: 100%;
+        background: red;
+        color: transparent;
+        display: inline-block;
+    }
+    
+    .event {
+        background: #00B4FC;
+        color: white;
+        border-radius: 2px;
+        text-align: left;
+        font-size: 0.875rem;
+        z-index: 2;
+        padding: 0.5rem;
+        overflow-x: hidden;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+    
+    .event-close {
+        margin-left: 83%;
+        margin-top: -6%;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        background-color: #71a7bc;
+        border-radius: 50%;
+        height: 25px;
+        width: 25px;
+        position: absolute;
+    }
+    
+    .event:hover {
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        background: #00B4FC;
+    }
+    
+    .event.double {
+        height: 200%;
+    }
+    
+    .event-disable {
+        background: grey;
+        color: white;
+        border-radius: 2px;
+        text-align: left;
+        font-size: 0.875rem;
+        z-index: 2;
+        padding: 0.5rem;
+        overflow-x: hidden;
+        transition: all 0.2s;
+    }
+    
+    .cannot {
+        cursor: no-drop;
+    }
+    /*td:hover:after {
+        content: "+";
+        vertical-align: middle;
+        font-size: 1.875rem;
+        font-weight: 100;
+        color: rgba(0, 0, 0, 0.5);
+        position: absolute; 
+    }*/
+    
+    .contentcol-hover {
+        background-color: gray;
+        cursor: pointer;
+    }
+    
+    button.secondary {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: white;
+        padding: 0.5rem 0.75rem;
+        font-size: 14px;
+        border-radius: 2px;
+        color: rgba(0, 0, 0, 0.5);
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        font-weight: 500;
+    }
+    
+    button.secondary:hover {
+        background: #fafafa;
+    }
+    
+    button.secondary:active {
+        box-shadow: none;
+    }
+    
+    button.secondary:focus {
+        outline: 0;
+    }
+    /* tr td:nth-child(2),
+    tr td:nth-child(3),
+    .past {
+        background: #fafafa;
+    } */
+    
+    .today {
+        color: red;
+    }
+    
+    .now {
+        box-shadow: 0px -1px 0px 0px red;
+    }
+    
+    .icon {
+        font-size: 1.5rem;
+        margin: 0 1rem;
+        text-align: center;
+        cursor: pointer;
+        vertical-align: middle;
+        position: relative;
+        top: -2px;
+    }
+    
+    .icon:hover {
+        color: red;
+    }
+</style>
+
+{% endblock %} {% block body %}
+
+<div class="calendar" style="margin-top: 30px;margin-bottom: 30px;">
+    <div class="content-body">
+
+        Duration: <span id="duration">1hrs&nbsp;&#8616;</span>
+        <input type="hidden" value="2" id="durationValue">
+        <div class="duration" id="durationSelection" duration_type="part_day" style="display: none;">
+            <div class="meeting_duration_selector_options" duration_type="part_day" id="partDay">
+                <div class="duration_option" duration="30" unit="minutes">30 minutes</div>
+                <div class="duration_option" duration="60" unit="minutes">1 hr</div>
+                <div class="duration_option" duration="90" unit="minutes">1 hr 30 minutes</div>
+                <div class="duration_option" duration="120" unit="minutes">2 hrs</div>
+                <div class="duration_option" duration="150" unit="minutes">2 hrs 30 minutes</div>
+                <div class="duration_option" duration="180" unit="minutes">3 hrs</div>
+                <div class="duration_option" duration="210" unit="minutes">3 hrs 30 minutes</div>
+                <div class="duration_option" duration="240" unit="minutes">4 hrs</div>
+                <div class="duration_option" duration="270" unit="minutes">4 hrs 30 minutes</div>
+                <div class="duration_option" duration="300" unit="minutes">5 hrs</div>
+                <div class="duration_option" duration="330" unit="minutes">5 hrs 30 minutes</div>
+                <div class="duration_option" duration="360" unit="minutes">6 hrs</div>
+                <div class="duration_option" duration="390" unit="minutes">6 hrs 30 minutes</div>
+                <div class="duration_option" duration="420" unit="minutes">7 hrs</div>
+                <div class="duration_option" duration="450" unit="minutes">7 hrs 30 minutes</div>
+                <div class="duration_option" duration="480" unit="minutes">8 hrs</div>
+                <div class="duration_option" duration="510" unit="minutes">8 hrs 30 minutes</div>
+                <div class="duration_option" duration="540" unit="minutes">9 hrs</div>
+                <div class="duration_option" duration="570" unit="minutes">9 hrs 30 minutes</div>
+                <div class="duration_option" duration="600" unit="minutes">10 hrs</div>
+                <div class="duration_option" duration="630" unit="minutes">10 hrs 30 minutes</div>
+                <div class="duration_option" duration="660" unit="minutes">11 hrs</div>
+                <div class="duration_option" duration="690" unit="minutes">11 hrs 30 minutes</div>
+                <div class="duration_option" duration="720" unit="minutes">12 hrs</div>
+                <div class="duration_option" duration="750" unit="minutes">12 hrs 30 minutes</div>
+                <div class="duration_option" duration="780" unit="minutes">13 hrs</div>
+                <div class="duration_option" duration="810" unit="minutes">13 hrs 30 minutes</div>
+                <div class="duration_option" duration="840" unit="minutes">14 hrs</div>
+                <div class="duration_option" duration="870" unit="minutes">14 hrs 30 minutes</div>
+                <div class="duration_option" duration="900" unit="minutes">15 hrs</div>
+                <div class="duration_option" duration="930" unit="minutes">15 hrs 30 minutes</div>
+                <div class="duration_option" duration="960" unit="minutes">16 hrs</div>
+                <div class="duration_option" duration="990" unit="minutes">16 hrs 30 minutes</div>
+                <div class="duration_option" duration="1020" unit="minutes">17 hrs</div>
+                <div class="duration_option" duration="1050" unit="minutes">17 hrs 30 minutes</div>
+                <div class="duration_option" duration="1080" unit="minutes">18 hrs</div>
+                <div class="duration_option" duration="1110" unit="minutes">18 hrs 30 minutes</div>
+                <div class="duration_option" duration="1140" unit="minutes">19 hrs</div>
+                <div class="duration_option" duration="1170" unit="minutes">19 hrs 30 minutes</div>
+                <div class="duration_option" duration="1200" unit="minutes">20 hrs</div>
+                <div class="duration_option" duration="1230" unit="minutes">20 hrs 30 minutes</div>
+                <div class="duration_option" duration="1260" unit="minutes">21 hrs</div>
+                <div class="duration_option" duration="1290" unit="minutes">21 hrs 30 minutes</div>
+                <div class="duration_option" duration="1320" unit="minutes">22 hrs</div>
+                <div class="duration_option" duration="1350" unit="minutes">22 hrs 30 minutes</div>
+                <div class="duration_option" duration="1380" unit="minutes">23 hrs</div>
+                <div class="duration_option" duration="1410" unit="minutes">23 hrs 30 minutes</div>
+                <div class="duration_option" duration="1440" unit="minutes">24 hrs</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="outer">
+
+        <div class="wrap">
+            <table class="offset calendar-table" id="calendar">
+                <thead>
+                    <tr>
+                        <th></th>
+                        {% for key, value in week.items %}
+                        <th>{{ key }}</th>
+                        {% endfor %}
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="headcol"></td>
+                        <td style="border-right-color:white;"></td>
+                        <td style="border-right-color:white;"></td>
+                        <td style="border-right-color:white;"></td>
+                        <td style="border-right-color:white;"></td>
+                        <td style="border-right-color:white;"></td>
+                        <td style="border-right-color:white;"></td>
+                        <td style="border-right-color:white;"></td>
+                        <td class="headcol"></td>
+                    </tr>
+                    {% for time in time_range %}
+                    <tr>
+                        <td class="headcol"><span style="margin-top: -15px;position: absolute;">{{ time }}</span></td>
+                        <td class="contentcol"></td>
+                        <td class="contentcol"></td>
+                        <td class="contentcol"></td>
+                        <td class="contentcol"></td>
+                        <td class="contentcol"></td>
+                        <td class="contentcol"></td>
+                        <td class="contentcol"></td>
+                        <td class="headcol"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="content-body" style="margin-left: 17%;">
+    <button type="button" class="u-btn u-button-style u-palette-3-base u-btn-1" id="save">Save</button>
+</div>
+
+
+<script>
+    const csrftoken = getCookie('csrftoken');
+
+    jQuery(document).ready(function() {
+
+        var par_num = 0;
+        var par = [];
+        var week = JSON.parse('{{ json_week }}');
+        var today = new Date();
+        var now_date = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + today.getDate();
+        var now_time = String(today.getHours()).padStart(2, '0') + ":" + String(today.getMinutes()).padStart(2, '0');
+        var time_range = JSON.parse('{{ json_time_range }}');
+
+        week = Object.keys(week).map((key) => week[key]);
+
+        for (var y = 2; y < 9; y++) {
+            jQuery('#calendar tbody tr:nth-child(' + (49) + ') td:nth-child(' + (y) + ')').hide();
+        }
+
+        for (var z = 2; z < 49; z++) {
+            jQuery('#calendar tbody tr:nth-child(' + (z) + ') td:nth-child(' + (2) + ')').attr("style", "border-left: 1px solid #eee;");
+        }
+
+        jQuery('#calendar tbody tr:nth-child(16)').attr("tabindex", -1).focus();
+        jQuery('#calendar tbody tr:nth-child(16)').removeAttr("tabindex")
+
+        jQuery("#title").hide();
+        jQuery("#durationSelection").hide();
+        jQuery(".calendar_default_corner_inner").next().remove();
+
+        sessionStorage.setItem("date", "");
+
+        jQuery("#duration").click(function() {
+            jQuery("#durationSelection").show();
+        });
+
+        jQuery("#save").click(function() {
+            console.log(sessionStorage.getItem("date"));
+        });
+
+        jQuery(".calendar").on('click', '.duration_option', function() {
+            jQuery("#duration").html(jQuery(this).text() + "&nbsp;&#8616;");
+            jQuery("#durationValue").val((parseInt(jQuery(this).attr("duration")) / 30));
+            jQuery("#durationSelection").hide();
+        });
+
+
+        jQuery(document).mouseup(function(e) {
+            var container = jQuery("#durationSelection");
+
+            // if the target of the click isn't the container nor a descendant of the container
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                container.hide();
+            }
+        });
+
+        jQuery("#calendar tbody tr .contentcol").hover(function() {
+            var duration = jQuery("#durationValue").val();
+            var c = parseInt(jQuery(this).index()) + 1;
+            var r, full_r;
+
+            if (jQuery(".cannot:hover").length > 0) {
+                return false;
+            }
+
+            for (var i = 0; i < duration; i++) {
+                r = parseInt(jQuery(this).parent().index()) + 1 + i;
+
+                if (r < 49) {
+                    jQuery('#calendar tbody tr:nth-child(' + r + ') td:nth-child(' + c + ')').addClass('contentcol-hover');
+                    full_r = i + 1
+                }
+            }
+
+            if (full_r != duration) {
+                for (var i = 0; i < (duration - full_r); i++) {
+                    jQuery('#calendar tbody tr:nth-child(' + (i + 1) + ') td:nth-child(' + (c + 1) + ')').addClass('contentcol-hover');
+                }
+            }
+
+        }, function() {
+            var duration = jQuery("#durationValue").val();
+            var c = parseInt(jQuery(this).index()) + 1;
+            var r, full_r;
+
+            for (var i = 0; i < duration; i++) {
+                r = parseInt(jQuery(this).parent().index()) + 1 + i;
+
+                if (r < 49) {
+                    jQuery('#calendar tbody tr:nth-child(' + r + ') td:nth-child(' + c + ')').removeClass('contentcol-hover');
+                    full_r = i + 1
+                }
+            }
+
+            if (full_r != duration) {
+                for (var i = 0; i < (duration - full_r); i++) {
+                    jQuery('#calendar tbody tr:nth-child(' + (i + 1) + ') td:nth-child(' + (c + 1) + ')').removeClass('contentcol-hover');
+                }
+            }
+        });
+
+        jQuery("#calendar tbody tr .contentcol").click(function() {
+
+            jQuery("#calendar").on('click', '.event-close', function() {
+                var td = parseInt(jQuery(this).parent().index()) + 1;
+                var tr = parseInt(jQuery(this).parent().parent().index()) + 1;
+                var duration = jQuery(this).parent().attr("class").replace("contentcol cannot duration", "");
+                duration = duration.replace("contentcol contentcol-hover cannot duration", "");
+
+                for (var c = 0; c < duration; c++) {
+                    jQuery('#calendar tbody tr:nth-child(' + (tr + c) + ') td:nth-child(' + (td) + ')').attr("class", "contentcol")
+                }
+
+                time_array = JSON.parse(sessionStorage.getItem("date"));
+                remove_date = time_array[time_array.length - 1];
+
+                for (var i = 0; i < time_array.length - 1; i++) {
+                    if (time_array[i].start_time == remove_date.start_time && time_array[i].end_time == remove_date.end_time) {
+                        time_array.splice(i, 1);
+                    }
+                }
+
+                time_array.splice(time_array.length - 1, 1);
+                sessionStorage.setItem("date", JSON.stringify(time_array));
+
+                jQuery(this).parent().empty();
+            });
+
+            var duration = parseInt(jQuery("#durationValue").val());
+            var c = parseInt(jQuery(this).index()) + 1;
+            var start_time, end_time, end_time_front, end_time_back, i, tr, height;
+            var time_array = [];
+
+            if (jQuery(".cannot:hover").length > 0) {
+
+                if (jQuery(".event-close:hover").length > 0) {
+                    jQuery("#calendar").on('click', '.event-close', function() {
+
+                    });
+                } else {
+                    return false;
+                }
+
+            }
+
+            date = jQuery("#calendar thead tr th:nth-child(" + (c) + ")").text().slice(0, 10);
+
+            start_time = jQuery(this).parent().children().text().slice(0, 5);
+
+            tr = (parseInt(start_time.split(":")[0]) * 2);
+
+            if (start_time.split(":")[1] == "30") {
+                tr++;
+            }
+
+            if (duration % 2 != 0) {
+                end_time_back = parseInt(start_time.split(":")[1]) + 30;
+
+                if (end_time_back == 60) {
+                    end_time_back = "00";
+                    i = 1;
+                } else {
+                    end_time_back = "30";
+                    i = 0;
+                }
+            } else {
+                i = 0;
+                end_time_back = start_time.split(":")[1];
+            }
+
+            end_time_front = parseInt(start_time.split(":")[0]) + (Math.floor(duration / 2)) + i;
+            end_time = String(end_time_front).padStart(2, '0') + ":" + end_time_back;
+
+            if (sessionStorage.getItem("date") != "") {
+                time_array = JSON.parse(sessionStorage.getItem("date"));
+            }
+
+            time_array.push({
+                start_time: date + " " + start_time,
+                end_time: date + " " + end_time,
+            });
+
+            sessionStorage.setItem("date", JSON.stringify(time_array));
+
+            if (duration < 0) {
+                duration = -duration;
+            }
+
+            if (duration > 2) {
+                height = 80 + (duration - 1) * 115
+            } else {
+                height = duration * 100;
+            }
+
+            jQuery(this).append('<div class="event-close">x</div><div class="event" style="height:' + height + '%"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>' + start_time + '–' + end_time + '<br></div>');
+
+            for (var c = 0; c < duration; c++) {
+                jQuery('#calendar tbody tr:nth-child(' + (tr + 1 + c) + ') td:nth-child(' + (jQuery(this).index() + 1) + ')').addClass("cannot");
+                jQuery('#calendar tbody tr:nth-child(' + (tr + 1 + c) + ') td:nth-child(' + (jQuery(this).index() + 1) + ')').addClass("duration" + duration);
+            }
+        });
+
+        jQuery("#save").click(function() {
+            jQuery.ajax({
+                url: "/group_meeting",
+                data: {
+                    'date': sessionStorage.getItem("date"),
+                },
+                type: 'POST',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+            }).done(function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Thanks for update your information',
+                }).then((result) => {
+                    window.location.href = "/";
+                });
+            });
+        })
+    });
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
+{% endblock %}

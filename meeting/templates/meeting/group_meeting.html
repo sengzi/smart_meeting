@@ -1,0 +1,945 @@
+{% extends 'meeting/base/base.html' %} {% load static %} {% block body %} {% block site_css %}
+
+<style>
+    .stepper-wrapper {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    
+    .content-box {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        position: relative;
+        overflow: hidden;
+        max-width: 65%;
+        min-height: 100px;
+        margin: auto;
+        margin-bottom: 2%;
+    }
+    
+    .duration {
+        position: absolute;
+        top: 84%;
+        margin-left: 10%;
+        width: 22%;
+        box-shadow: 0 0 3px 0 rgb(0 0 0 / 20%);
+        background: #fff;
+        z-index: 2;
+        overflow: scroll;
+        height: 100px;
+    }
+    
+    #duration {
+        color: lightblue;
+        cursor: pointer;
+    }
+    
+    .duration_option:hover {
+        cursor: pointer;
+        background-color: lightgray;
+    }
+    
+    .remove-cross {
+        color: grey;
+        cursor: pointer;
+    }
+    
+    .button-box {
+        background-color: #fff;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        max-width: 65%;
+        min-height: 100px;
+        margin: auto;
+        margin-bottom: 2%;
+    }
+    
+    .content-header {
+        font-size: 19px;
+        font-weight: 500;
+        padding: 2%;
+    }
+    
+    .content-body {
+        margin-left: 2%;
+        margin-bottom: 1%;
+    }
+    
+    .column-3 {
+        float: left;
+        width: 30%;
+        padding: 10px;
+    }
+    
+    .column-quater {
+        float: left;
+        width: 25%;
+        padding: 10px;
+    }
+    
+    .column-half {
+        float: left;
+        width: 50%;
+        padding: 10px;
+    }
+    
+    .column-7 {
+        float: left;
+        width: 70%;
+        padding: 10px;
+    }
+    
+    .rcorners {
+        border-radius: 100%;
+        box-shadow: 0 0 3px 0 rgb(4 5 6 / 20%);
+        width: 25%;
+        height: 25px;
+        margin: auto;
+    }
+    
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    
+    .stepper-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        @media (max-width: 768px) {
+            font-size: 12px;
+        }
+    }
+    
+    .stepper-item::before {
+        position: absolute;
+        content: "";
+        border-bottom: 2px solid #ccc;
+        width: 100%;
+        top: 20px;
+        left: -50%;
+        z-index: 2;
+    }
+    
+    .stepper-item::after {
+        position: absolute;
+        content: "";
+        border-bottom: 2px solid #ccc;
+        width: 100%;
+        top: 20px;
+        left: 50%;
+        z-index: 2;
+    }
+    
+    .stepper-item .step-counter {
+        position: relative;
+        z-index: 5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #ccc;
+        margin-bottom: 6px;
+    }
+    
+    .stepper-item.active {
+        font-weight: bold;
+    }
+    
+    .stepper-item.completed .step-counter {
+        background-color: #f1c50e;
+        color: white;
+        cursor: pointer;
+    }
+    
+    .stepper-item.completed::after {
+        position: absolute;
+        content: "";
+        border-bottom: 2px solid #f1c50e;
+        width: 100%;
+        top: 20px;
+        left: 50%;
+        z-index: 3;
+    }
+    
+    .stepper-item:first-child::before {
+        content: none;
+    }
+    
+    .stepper-item:last-child::after {
+        content: none;
+    }
+    
+    .outer {
+        position: relative;
+    }
+    
+    .calendar {
+        margin: 0 auto;
+        max-width: 1280px;
+        min-width: 500px;
+        box-shadow: 0px 30px 50px rgba(0, 0, 0, 0.2), 0px 3px 7px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+    
+    .wrap {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        max-width: 1280px;
+        height: 500px;
+        border-radius: 8px;
+    }
+    
+    thead {
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    thead th {
+        text-align: center;
+        width: 100%;
+    }
+    
+    tbody {
+        position: relative;
+        top: 12px;
+    }
+    
+    .calendar-table {
+        background: #fff;
+        width: 100%;
+        height: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+    
+    .headcol {
+        width: 60px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.5);
+        padding: 0.25rem 0;
+        text-align: center;
+        border: 0;
+        position: relative;
+        top: -12px;
+        border-bottom: 1px solid transparent;
+    }
+    
+    thead th {
+        font-size: 1rem;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.9);
+        padding: 1rem;
+    }
+    
+    thead {
+        z-index: 2;
+        background: white;
+        border-bottom: 2px solid #ddd;
+    }
+    
+    tr,
+    tr td {
+        height: 20px;
+    }
+    
+    td {
+        text-align: center;
+        top: -12px;
+    }
+    
+    tr:nth-child(odd) td:not(.headcol) {
+        border-bottom: 1px solid #e8e8e8;
+    }
+    
+    tr:nth-child(even) td:not(.headcol) {
+        border-bottom: 1px solid #eee;
+    }
+    
+    tr td {
+        border-right: 1px solid #eee;
+        padding: 0;
+        white-space: none;
+        word-wrap: nowrap;
+    }
+    
+    tbody tr td {
+        position: relative;
+        vertical-align: top;
+        height: 40px;
+        padding: 0.25rem 0.25rem 0 0.25rem;
+        width: auto;
+    }
+    
+    .secondary {
+        color: rgba(0, 0, 0, 0.4);
+    }
+    
+    .checkbox {
+        display: none;
+    }
+    
+    .checkbox+label {
+        border: 0;
+        outline: 0;
+        width: 100px;
+        height: 100px;
+        background: white;
+        color: transparent;
+        display: block;
+        display: none;
+    }
+    
+    .checkbox:checked+label {
+        border: 0;
+        outline: 0;
+        width: 100%;
+        height: 100%;
+        background: red;
+        color: transparent;
+        display: inline-block;
+    }
+    
+    .event {
+        background: #00B4FC;
+        color: white;
+        border-radius: 2px;
+        text-align: left;
+        font-size: 0.875rem;
+        z-index: 2;
+        padding: 0.5rem;
+        overflow-x: hidden;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+    
+    .event-close {
+        margin-left: 83%;
+        margin-top: -6%;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        background-color: #71a7bc;
+        border-radius: 50%;
+        height: 25px;
+        width: 25px;
+        position: absolute;
+    }
+    
+    .event:hover {
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        background: #00B4FC;
+    }
+    
+    .event.double {
+        height: 200%;
+    }
+    
+    .event-disable {
+        background-color: #e8e8e8 !important;
+        color: white;
+        border-radius: 2px;
+        text-align: left;
+        font-size: 0.875rem;
+        z-index: 2;
+        padding: 0.5rem;
+        overflow-x: hidden;
+        transition: all 0.2s;
+    }
+    
+    .cannot {
+        cursor: no-drop;
+    }
+    /*td:hover:after {
+        content: "+";
+        vertical-align: middle;
+        font-size: 1.875rem;
+        font-weight: 100;
+        color: rgba(0, 0, 0, 0.5);
+        position: absolute; 
+    }*/
+    
+    .contentcol-hover {
+        background-color: gray;
+        cursor: pointer;
+    }
+    
+    button.secondary {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: white;
+        padding: 0.5rem 0.75rem;
+        font-size: 14px;
+        border-radius: 2px;
+        color: rgba(0, 0, 0, 0.5);
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        font-weight: 500;
+    }
+    
+    button.secondary:hover {
+        background: #fafafa;
+    }
+    
+    button.secondary:active {
+        box-shadow: none;
+    }
+    
+    button.secondary:focus {
+        outline: 0;
+    }
+    /* tr td:nth-child(2),
+    tr td:nth-child(3),
+    .past {
+        background: #fafafa;
+    } */
+    
+    .today {
+        color: red;
+    }
+    
+    .now {
+        box-shadow: 0px -1px 0px 0px red;
+    }
+    
+    .icon {
+        font-size: 1.5rem;
+        margin: 0 1rem;
+        text-align: center;
+        cursor: pointer;
+        vertical-align: middle;
+        position: relative;
+        top: -2px;
+    }
+    
+    .icon:hover {
+        color: red;
+    }
+</style>
+{% endblock %}
+
+<div class="stepper-wrapper" id="groupStep">
+    <div class="stepper-item completed" id="stepper1">
+        <div class="step-counter"><i class="fa fa-gear"></i></div>
+        <div class="step-name">Setup</div>
+    </div>
+    <div class="stepper-item" id="stepper2">
+        <div class="step-counter">1</div>
+        <div class="step-name">Who</div>
+    </div>
+    <div class="stepper-item" id="stepper3">
+        <div class="step-counter">2</div>
+        <div class="step-name">When</div>
+    </div>
+    <div class="stepper-item" id="stepper4">
+        <div class="step-counter"><i class="fa fa-file-text-o"></i></div>
+        <div class="step-name">Review</div>
+    </div>
+</div>
+
+<div id="step1">
+    {% include 'meeting/includes/group_step1.html' %}
+</div>
+<div id="step2" style="display:none;">
+    {% include 'meeting/includes/group_step2.html' %}
+</div>
+<div id="step3" style="display:none;">
+    {% include 'meeting/includes/group_step3.html' with time_range=time_range week=week %}
+</div>
+<div id="step4" style="display:none;">
+    {% include 'meeting/includes/group_step5.html' %}
+</div>
+
+<script>
+    const csrftoken = "{{ csrftoken }}";
+
+    jQuery(document).ready(function() {
+
+        var par_num = 0;
+        var par = [];
+        var week = JSON.parse('{{ json_week }}');
+        var today = new Date();
+        var now_date = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + today.getDate();
+        var now_time = String(today.getHours()).padStart(2, '0') + ":" + String(today.getMinutes()).padStart(2, '0');
+        var time_range = JSON.parse('{{ json_time_range }}');
+
+        week = Object.keys(week).map((key) => week[key]);
+
+        for (var c = 0; c < time_range.length; c++) {
+            if (now_time > time_range[c]) {
+                jQuery('#calendar tbody tr:nth-child(' + (c + 2) + ') td:nth-child(2)').addClass("cannot");
+            }
+        }
+
+        //jQuery("#poll").hide();
+        jQuery("#title").hide();
+        jQuery("#durationSelection").hide();
+        jQuery(".calendar_default_corner_inner").next().remove();
+
+        for (var y = 2; y < 9; y++) {
+            jQuery('#calendar tbody tr:nth-child(' + (49) + ') td:nth-child(' + (y) + ')').hide();
+        }
+
+        for (var z = 2; z < 49; z++) {
+            jQuery('#calendar tbody tr:nth-child(' + (z) + ') td:nth-child(' + (2) + ')').attr("style", "border-left: 1px solid #eee;");
+        }
+
+        jQuery('#calendar tbody tr:nth-child(16)').attr("id", "testfocus").focus();
+        //sessionStorage.setItem("invite", "");
+        sessionStorage.setItem("poll", "");
+        sessionStorage.setItem("title", "");
+        sessionStorage.setItem("description", "");
+        sessionStorage.setItem("invite_people", "");
+        sessionStorage.setItem("invite_time", "");
+        sessionStorage.setItem("location", "");
+
+        /*jQuery("#bestBtn").click(function() {
+            var invite = jQuery("#invite .content-body input[name='poll']:checked").val();
+
+            if (invite == undefined) {
+                alert("Please fill choose a best option");
+            } else {
+                jQuery("#poll").fadeIn();
+                sessionStorage.setItem("invite", invite);
+            }
+        });*/
+
+        jQuery(".u-btn.u-button-style.u-palette-3-base.u-btn-1.pollbutton").click(function() {
+            var poll = jQuery(this).attr("id").replace("pollBtn", "");
+            jQuery("#title").fadeIn();
+            sessionStorage.setItem("poll", poll);
+        });
+
+        jQuery("#addEmail").click(function() {
+            var email = jQuery("input[name='participant']").val();
+            var duplicate = false;
+
+            jQuery("#invitePeople p").each(function() {
+                if (par.includes(email)) {
+                    duplicate = true;
+                }
+            });
+
+            if (duplicate) {
+                alert("Cannot add the same people");
+            } else if (email == "") {
+                alert("Please insert email");
+            } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+                alert("Please insert correct format");
+            } else {
+                jQuery("#invitePeople").append("<p id='par" + par_num + "'>" + email + " <span class='remove-cross' id='remove" + par_num + "'>x</span></p>");
+                jQuery("input[name='participant']").val("");
+
+                if (!par.includes(email)) {
+                    par.push(email);
+                }
+
+                sessionStorage.setItem("invite_people", JSON.stringify(par));
+
+                par_num++;
+            }
+        });
+
+        jQuery("#invite_people").on('click', '.remove-cross', function() {
+            var id = parseInt(jQuery(this).attr("id").replace("remove", ""));
+            jQuery("#par" + id).remove();
+        });
+
+        jQuery("#groupStep").on('click', '.stepper-item.completed', function() {
+            var id = parseInt(jQuery(this).attr("id").replace("stepper", ""));
+
+            jQuery("#step" + id).fadeIn();
+
+            for (var i = (id + 1); i <= 5; i++) {
+                jQuery("#step" + i).hide();
+                jQuery("#stepper" + i).attr("class", "stepper-item");
+            }
+        });
+
+        jQuery("#step1btn button").click(function() {
+            jQuery("#step1").fadeOut();
+
+            sessionStorage.setItem("title", jQuery("input[name='title']").val());
+            sessionStorage.setItem("description", jQuery("textarea[name='description']").val());
+            sessionStorage.setItem("location", jQuery("input[name='location']").val());
+
+            setTimeout(function() {
+                jQuery("#step2").fadeIn();
+                jQuery("#stepper2").attr("class", "stepper-item completed")
+            }, 500);
+
+        });
+
+        jQuery("#step2btn button").click(function() {
+
+            var check_par = false;
+
+            jQuery("#invitePeople p").each(function() {
+                check_par = true;
+            });
+
+            if (check_par) {
+                jQuery.ajax({
+                    url: "/group_meeting",
+                    data: {
+                        'invite_people': sessionStorage.getItem("invite_people")
+                    },
+                    type: 'POST',
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    },
+                }).done(function(response) {
+                    var disable_date = JSON.parse(response);
+
+                    week = Object.keys(week).map((key) => week[key]);
+
+                    for (var a = 0; a < disable_date.length; a++) {
+
+                        var date = disable_date[a].start.split(" ");
+                        for (var b = 0; b < 7; b++) {
+                            if (date[0] == week[b]) {
+                                var start_times = date[1].split(":");
+                                var start_time = (parseInt(start_times[0]) * 2);
+                                var end_times = disable_date[a].end.split(" ")[1].split(":");
+                                var end_time = (parseInt(end_times[0]) * 2);
+                                var duration = ((parseInt(end_times[0]) - parseInt(start_times[0])) * 2);
+                                var height;
+
+                                if (disable_date[a].event != "Google Calendar") {
+                                    if (start_time < 14 && end_time < 14) {
+                                        break;
+                                    } else if (start_time < 14) {
+
+                                        duration = duration + (start_time - 14)
+                                        start_time = 14;
+                                        start_times[0] = "07";
+                                    }
+
+                                    if (start_time == end_time) {
+                                        break;
+                                    }
+                                }
+
+                                if (duration < 0) {
+                                    duration = -duration;
+                                }
+
+                                if (start_times[1] == "30") {
+                                    start_time++;
+                                }
+
+                                if (start_times[1] < end_times[1]) {
+                                    duration = duration + 1;
+                                } else if (start_times[1] > end_times[1]) {
+                                    duration = duration - 1;
+                                }
+
+                                if (duration > 2) {
+                                    height = 80 + (duration - 1) * 115
+                                } else {
+                                    height = duration * 100;
+                                }
+
+                                if (disable_date[a].event != "Google Calendar") {
+                                    jQuery('#calendar tbody tr:nth-child(' + (start_time + 2) + ') td:nth-child(' + (b + 2) + ')').append('<div class="event-close">x</div><div class="event" style="height:' + height + '%;"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>' + start_times[0] + ':' + start_times[1] + '–' + end_times[0] + ':' + end_times[1] + '<br>' + disable_date[a].event + '</div>');
+
+                                    if (sessionStorage.getItem("invite_time") != "") {
+                                        time_array = JSON.parse(sessionStorage.getItem("invite_time"));
+                                    } else {
+                                        time_array = []
+                                    }
+
+                                    time_array.push({
+                                        start_time: disable_date[a].start,
+                                        end_time: disable_date[a].end,
+                                    });
+
+                                    sessionStorage.setItem("invite_time", JSON.stringify(time_array));
+                                } else {
+                                    jQuery('#calendar tbody tr:nth-child(' + (start_time + 2) + ') td:nth-child(' + (b + 2) + ')').append('<div class="event-disable" style="height:' + height + '%;background-color:#' + disable_date[a].color + ';"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>' + start_times[0] + ':' + start_times[1] + '–' + end_times[0] + ':' + end_times[1] + '<br>Cannot</div>');
+                                }
+
+                                for (var c = 0; c < duration; c++) {
+                                    jQuery('#calendar tbody tr:nth-child(' + (start_time + 2 + c) + ') td:nth-child(' + (b + 2) + ')').addClass("cannot");
+                                    jQuery('#calendar tbody tr:nth-child(' + (start_time + 2 + c) + ') td:nth-child(' + (b + 2) + ')').addClass("duration" + duration);
+                                }
+                            }
+                        }
+
+                    }
+                });
+
+                jQuery("#step2").fadeOut();
+                setTimeout(function() {
+                    jQuery("#step3").fadeIn();
+                    jQuery("#stepper3").attr("class", "stepper-item completed")
+                }, 500);
+            } else {
+                alert("Please select a participant");
+            }
+
+        });
+
+        jQuery("#step3btn button").click(function() {
+
+            jQuery("#step3").fadeOut();
+            setTimeout(function() {
+                jQuery("#step4").fadeIn();
+                jQuery("#stepper4").attr("class", "stepper-item completed");
+
+                var people = JSON.parse(sessionStorage.getItem("invite_people"));
+                var time = JSON.parse(sessionStorage.getItem("invite_time"));
+                var people_word, time_word, poll;
+
+                for (var i = 0; i < time.length; i++) {
+                    if (i == 0) {
+                        time_word = "<p>" + time[i].start_time + " - " + time[i].end_time + "</p>";
+                    } else {
+                        time_word += "<p>" + time[i].start_time + " - " + time[i].end_time + "</p>";
+                    }
+                }
+
+                for (var i = 0; i < people.length; i++) {
+                    if (i == 0) {
+                        people_word = "<p>" + people[i] + "</p>";
+                    } else {
+                        people_word += "<p>" + people[i] + "</p>";
+                    }
+                }
+
+                if (sessionStorage.getItem("poll") == 2) {
+                    poll = "Allow Maybes";
+                } else {
+                    poll = "Yes or No";
+                }
+
+                jQuery("#final_title .content-body").append("<p>" + sessionStorage.getItem("title") + "</p>");
+                jQuery("#final_description .content-body").append("<p>" + sessionStorage.getItem("description") + "</p>");
+                jQuery("#final_where .content-body").append("<p>" + sessionStorage.getItem("location") + "</p>");
+                jQuery("#final_times .content-body").append("<p>" + time_word + "</p>");
+                jQuery("#final_invites .content-body").append("<p>" + people_word + "</p>");
+                jQuery("#final_poll .content-body").append("<p>" + poll + "</p>");
+
+            }, 500);
+
+
+        });
+
+        jQuery("#step4btn button").click(function() {
+            jQuery.ajax({
+                url: "/group_meeting",
+                data: {
+                    'title': sessionStorage.getItem("title"),
+                    'description': sessionStorage.getItem("description"),
+                    'location': sessionStorage.getItem("location"),
+                    'poll': sessionStorage.getItem("poll"),
+                    'invite_time': sessionStorage.getItem("invite_time"),
+                    'invite_people': sessionStorage.getItem("invite_people")
+                },
+                type: 'POST',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+            }).done(function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success Finalize',
+                    text: 'Your teammate will receive soon',
+                }).then((result) => {
+                    window.location.href = "/";
+                });
+            });
+        });
+
+        jQuery("#duration").click(function() {
+            jQuery("#durationSelection").show();
+        });
+
+        jQuery("#when").on('click', '.duration_option', function() {
+            jQuery("#duration").html(jQuery(this).text() + "&nbsp;&#8616;");
+            jQuery("#durationValue").val((parseInt(jQuery(this).attr("duration")) / 30));
+            jQuery("#durationSelection").hide();
+        });
+
+        jQuery(document).mouseup(function(e) {
+            var container = jQuery("#durationSelection");
+
+            // if the target of the click isn't the container nor a descendant of the container
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                container.hide();
+            }
+        });
+
+        jQuery("#calendar tbody tr .contentcol").hover(function() {
+            var duration = jQuery("#durationValue").val();
+            var c = parseInt(jQuery(this).index()) + 1;
+            var r, full_r;
+
+            if (jQuery(".cannot:hover").length > 0) {
+                return false;
+            }
+
+            for (var i = 0; i < duration; i++) {
+                r = parseInt(jQuery(this).parent().index()) + 1 + i;
+
+                if (r < 49) {
+
+                    if (jQuery('#calendar tbody tr:nth-child(' + r + ') td:nth-child(' + c + ')').attr("class").split(" ").length != 3) {
+                        jQuery('#calendar tbody tr:nth-child(' + r + ') td:nth-child(' + c + ')').addClass('contentcol-hover');
+                    }
+
+                    full_r = i + 1
+                }
+            }
+
+            if (full_r != duration) {
+                for (var i = 0; i < (duration - full_r); i++) {
+                    jQuery('#calendar tbody tr:nth-child(' + (i + 1) + ') td:nth-child(' + (c + 1) + ')').addClass('contentcol-hover');
+                }
+            }
+
+        }, function() {
+            var duration = jQuery("#durationValue").val();
+            var c = parseInt(jQuery(this).index()) + 1;
+            var r, full_r;
+
+            for (var i = 0; i < duration; i++) {
+                r = parseInt(jQuery(this).parent().index()) + 1 + i;
+
+                if (r < 49) {
+                    jQuery('#calendar tbody tr:nth-child(' + r + ') td:nth-child(' + c + ')').removeClass('contentcol-hover');
+                    full_r = i + 1
+                }
+            }
+
+            if (full_r != duration) {
+                for (var i = 0; i < (duration - full_r); i++) {
+                    jQuery('#calendar tbody tr:nth-child(' + (i + 1) + ') td:nth-child(' + (c + 1) + ')').removeClass('contentcol-hover');
+                }
+            }
+        });
+
+        jQuery("#calendar tbody tr .contentcol").click(function() {
+
+            jQuery("#calendar").on('click', '.event-close', function() {
+                var td = parseInt(jQuery(this).parent().index()) + 1;
+                var tr = parseInt(jQuery(this).parent().parent().index()) + 1;
+                var duration = jQuery(this).parent().attr("class").replace("contentcol cannot duration", "");
+                duration = duration.replace("contentcol contentcol-hover cannot duration", "");
+
+                console.log("Yes");
+
+                for (var c = 0; c < duration; c++) {
+                    jQuery('#calendar tbody tr:nth-child(' + (tr + c) + ') td:nth-child(' + (td) + ')').attr("class", "contentcol")
+                }
+
+                time_array = JSON.parse(sessionStorage.getItem("invite_time"));
+                remove_date = time_array[time_array.length - 1];
+
+                for (var i = 0; i < time_array.length - 1; i++) {
+                    if (time_array[i].start_time == remove_date.start_time && time_array[i].end_time == remove_date.end_time) {
+                        time_array.splice(i, 1);
+                    }
+                }
+
+                time_array.splice(time_array.length - 1, 1);
+                sessionStorage.setItem("invite_time", JSON.stringify(time_array));
+
+                jQuery(this).parent().empty();
+            });
+
+            var duration = parseInt(jQuery("#durationValue").val());
+            var c = parseInt(jQuery(this).index()) + 1;
+            var start_time, end_time, end_time_front, end_time_back, i, tr, height;
+            var time_array = [];
+            var addEvent = true;
+
+            if (jQuery(".cannot:hover").length > 0) {
+
+                if (jQuery(".event-close:hover").length > 0) {
+                    jQuery("#calendar").on('click', '.event-close', function() {
+
+                    });
+                } else {
+                    return false;
+                }
+
+            }
+
+            date = jQuery("#calendar thead tr th:nth-child(" + (c) + ")").text().slice(0, 10);
+
+            start_time = jQuery(this).parent().children().text().slice(0, 5);
+
+            tr = (parseInt(start_time.split(":")[0]) * 2);
+
+            if (start_time.split(":")[1] == "30") {
+                tr++;
+            }
+
+            for (var c = 0; c < duration; c++) {
+                if (jQuery('#calendar tbody tr:nth-child(' + (tr + 2 + c) + ') td:nth-child(' + (jQuery(this).index() + 1) + ')').attr("class").split(" ").length == 3) {
+                    addEvent = false;
+                }
+            }
+
+            if (duration % 2 != 0) {
+                end_time_back = parseInt(start_time.split(":")[1]) + 30;
+
+                if (end_time_back == 60) {
+                    end_time_back = "00";
+                    i = 1;
+                } else {
+                    end_time_back = "30";
+                    i = 0;
+                }
+            } else {
+                i = 0;
+                end_time_back = start_time.split(":")[1];
+            }
+
+            end_time_front = parseInt(start_time.split(":")[0]) + (Math.floor(duration / 2)) + i;
+            end_time = String(end_time_front).padStart(2, '0') + ":" + end_time_back;
+
+            if (sessionStorage.getItem("invite_time") != "") {
+                time_array = JSON.parse(sessionStorage.getItem("invite_time"));
+            }
+
+            time_array.push({
+                start_time: date + " " + start_time,
+                end_time: date + " " + end_time,
+            });
+
+            sessionStorage.setItem("invite_time", JSON.stringify(time_array));
+
+            if (duration < 0) {
+                duration = -duration;
+            }
+
+            if (duration > 2) {
+                height = 80 + (duration - 1) * 115
+            } else {
+                height = duration * 100;
+            }
+
+            if (addEvent) {
+                jQuery(this).append('<div class="event-close">x</div><div class="event" style="height:' + height + '%"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>' + start_time + '–' + end_time + '<br>' + sessionStorage.getItem("title") + '</div>');
+
+                for (var c = 0; c < duration; c++) {
+                    jQuery('#calendar tbody tr:nth-child(' + (tr + 2 + c) + ') td:nth-child(' + (jQuery(this).index() + 1) + ')').addClass("cannot");
+                    jQuery('#calendar tbody tr:nth-child(' + (tr + 2 + c) + ') td:nth-child(' + (jQuery(this).index() + 1) + ')').addClass("duration" + duration);
+                }
+            }
+
+
+        });
+    });
+</script>
+{% endblock %}

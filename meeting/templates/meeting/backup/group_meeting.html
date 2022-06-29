@@ -1,0 +1,589 @@
+{% extends 'meeting/base/base.html' %} {% load static %} {% block body %} {% block site_css %}
+
+<style>
+    .stepper-wrapper {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    
+    .content-box {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        position: relative;
+        overflow: hidden;
+        max-width: 65%;
+        min-height: 100px;
+        margin: auto;
+        margin-bottom: 2%;
+    }
+    
+    .duration {
+        position: absolute;
+        top: 18%;
+        margin-left: 5%;
+        width: 10%;
+        box-shadow: 0 0 3px 0 rgb(0 0 0 / 20%);
+        background: #fff;
+        z-index: 2;
+        overflow: scroll;
+        height: 100px;
+    }
+    
+    #duration {
+        color: lightblue;
+        cursor: pointer;
+    }
+    
+    .duration_option:hover {
+        cursor: pointer;
+        background-color: lightgray;
+    }
+    
+    .remove-cross {
+        color: grey;
+        cursor: pointer;
+    }
+    
+    .button-box {
+        background-color: #fff;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        max-width: 65%;
+        min-height: 100px;
+        margin: auto;
+        margin-bottom: 2%;
+    }
+    
+    .content-header {
+        font-size: 19px;
+        font-weight: 500;
+        padding: 2%;
+    }
+    
+    .content-body {
+        margin-left: 2%;
+        margin-bottom: 1%;
+    }
+    
+    .column-3 {
+        float: left;
+        width: 30%;
+        padding: 10px;
+    }
+    
+    .column-quater {
+        float: left;
+        width: 25%;
+        padding: 10px;
+    }
+    
+    .column-half {
+        float: left;
+        width: 50%;
+        padding: 10px;
+    }
+    
+    .column-7 {
+        float: left;
+        width: 70%;
+        padding: 10px;
+    }
+    
+    .rcorners {
+        border-radius: 100%;
+        box-shadow: 0 0 3px 0 rgb(4 5 6 / 20%);
+        width: 25%;
+        height: 25px;
+        margin: auto;
+    }
+    
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    
+    .stepper-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        @media (max-width: 768px) {
+            font-size: 12px;
+        }
+    }
+    
+    .stepper-item::before {
+        position: absolute;
+        content: "";
+        border-bottom: 2px solid #ccc;
+        width: 100%;
+        top: 20px;
+        left: -50%;
+        z-index: 2;
+    }
+    
+    .stepper-item::after {
+        position: absolute;
+        content: "";
+        border-bottom: 2px solid #ccc;
+        width: 100%;
+        top: 20px;
+        left: 50%;
+        z-index: 2;
+    }
+    
+    .stepper-item .step-counter {
+        position: relative;
+        z-index: 5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #ccc;
+        margin-bottom: 6px;
+    }
+    
+    .stepper-item.active {
+        font-weight: bold;
+    }
+    
+    .stepper-item.completed .step-counter {
+        background-color: #f1c50e;
+        color: white;
+        cursor: pointer;
+    }
+    
+    .stepper-item.completed::after {
+        position: absolute;
+        content: "";
+        border-bottom: 2px solid #f1c50e;
+        width: 100%;
+        top: 20px;
+        left: 50%;
+        z-index: 3;
+    }
+    
+    .stepper-item:first-child::before {
+        content: none;
+    }
+    
+    .stepper-item:last-child::after {
+        content: none;
+    }
+    
+    .toolbar {
+        margin-bottom: 10px;
+    }
+    
+    .toolbar-item a {
+        background-color: #fff;
+        border: 1px solid #c0c0c0;
+        color: #333;
+        padding: 8px 0px;
+        width: 80px;
+        border-radius: 2px;
+        cursor: pointer;
+        display: inline-block;
+        text-align: center;
+        text-decoration: none;
+    }
+    
+    .toolbar-item a.selected-button {
+        background-color: #f3f3f3;
+        color: #000;
+    }
+    /* context menu icons */
+    
+    .icon:before {
+        position: absolute;
+        margin-left: 0px;
+        margin-top: 3px;
+        width: 14px;
+        height: 14px;
+        content: '';
+    }
+    
+    .icon-blue:before {
+        background-color: #3d85c6;
+    }
+    
+    .icon-green:before {
+        background-color: #6aa84f;
+    }
+    
+    .icon-orange:before {
+        background-color: #e69138;
+    }
+    
+    .icon-red:before {
+        background-color: #cc4125;
+    }
+    /* active areas */
+    
+    .area-menu-icon {
+        background-color: #333333;
+        box-sizing: border-box;
+        xborder: 1px solid white;
+        border-radius: 10px;
+        opacity: 0.7;
+        color: white;
+        display: flex;
+        justify-content: center;
+        xalign-items: center;
+        font-size: 14px;
+    }
+</style>
+{% endblock %}
+
+<div class="stepper-wrapper" id="groupStep">
+    <div class="stepper-item completed" id="stepper1">
+        <div class="step-counter"><i class="fa fa-gear"></i></div>
+        <div class="step-name">Setup</div>
+    </div>
+    <div class="stepper-item" id="stepper2">
+        <div class="step-counter">1</div>
+        <div class="step-name">Who</div>
+    </div>
+    <div class="stepper-item" id="stepper3">
+        <div class="step-counter">2</div>
+        <div class="step-name">When</div>
+    </div>
+    <div class="stepper-item" id="stepper4">
+        <div class="step-counter">3</div>
+        <div class="step-name">Where/How</div>
+    </div>
+    <div class="stepper-item" id="stepper5">
+        <div class="step-counter"><i class="fa fa-file-text-o"></i></div>
+        <div class="step-name">Review</div>
+    </div>
+</div>
+
+
+<div id="step1" style="display:none;">
+    {% include 'meeting/includes/group_step1.html' %}
+</div>
+<div id="step2" style="display:none;">
+    {% include 'meeting/includes/group_step2.html' %}
+</div>
+<div id="step3">
+    {% include 'meeting/includes/group_step3.html' %}
+</div>
+<div id="step4" style="display:none;">
+    {% include 'meeting/includes/group_step4.html' %}
+</div>
+<div id="step5" style="display:none;">
+    {% include 'meeting/includes/group_step5.html' %}
+</div>
+
+<script>
+    jQuery(document).ready(function() {
+
+        var par_num = 0;
+        var par = [];
+
+        jQuery("#poll").hide();
+        jQuery("#title").hide();
+        jQuery("#durationSelection").hide();
+        jQuery(".calendar_default_corner_inner").next().remove();
+
+        jQuery("#bestBtn").click(function() {
+            var invite = jQuery("#invite .content-body input[name='poll']:checked").val();
+
+            if (invite == undefined) {
+                alert("Please fill choose a best option");
+            } else {
+                jQuery("#poll").fadeIn();
+                sessionStorage.setItem("invite", invite);
+            }
+        });
+
+        jQuery(".u-btn.u-button-style.u-palette-3-base.u-btn-1.pollbutton").click(function() {
+            var poll = jQuery(this).attr("id").replace("pollBtn", "");
+            jQuery("#title").fadeIn();
+            sessionStorage.setItem("poll", poll);
+        });
+
+        jQuery("#addEmail").click(function() {
+            var email = jQuery("input[name='participant']").val();
+            var duplicate = false;
+
+            jQuery("#invitePeople p").each(function() {
+                if (par.includes(email)) {
+                    duplicate = true;
+                }
+            });
+
+            if (duplicate) {
+                alert("Cannot add the same people");
+            } else if (email == "") {
+                alert("Please insert email");
+            } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+                alert("Please insert correct format");
+            } else {
+                jQuery("#invitePeople").append("<p id='par" + par_num + "'>" + email + " <span class='remove-cross' id='remove" + par_num + "'>x</span></p>");
+                jQuery("input[name='participant']").val("");
+
+                if (!par.includes(email)) {
+                    par.push(email);
+                }
+
+
+                par_num++;
+            }
+        });
+
+        jQuery("#invite_people").on('click', '.remove-cross', function() {
+            var id = parseInt(jQuery(this).attr("id").replace("remove", ""));
+            jQuery("#par" + id).remove();
+        });
+
+        jQuery("#groupStep").on('click', '.stepper-item.completed', function() {
+            var id = parseInt(jQuery(this).attr("id").replace("stepper", ""));
+
+            jQuery("#step" + id).fadeIn();
+
+            for (var i = (id + 1); i <= 5; i++) {
+                jQuery("#step" + i).hide();
+                jQuery("#stepper" + i).attr("class", "stepper-item");
+            }
+        });
+
+        jQuery("#step1btn button").click(function() {
+            jQuery("#step1").fadeOut();
+
+            sessionStorage.setItem("title", jQuery("input[name='title']").val());
+            sessionStorage.setItem("description", jQuery("input[name='description']").val());
+
+            setTimeout(function() {
+                jQuery("#step2").fadeIn();
+                jQuery("#stepper2").attr("class", "stepper-item completed")
+            }, 500);
+
+        });
+
+        jQuery("#step2btn button").click(function() {
+
+            var check_par = false;
+
+            jQuery("#invitePeople p").each(function() {
+                check_par = true;
+            });
+
+            if (check_par) {
+                jQuery("#step2").fadeOut();
+                setTimeout(function() {
+                    jQuery("#step3").fadeIn();
+                    jQuery("#stepper3").attr("class", "stepper-item completed")
+                }, 500);
+            } else {
+                alert("Please select a participant");
+            }
+
+        });
+
+        jQuery("#step3btn button").click(function() {
+            jQuery("#step3").fadeOut();
+            setTimeout(function() {
+                jQuery("#step4").fadeIn();
+                jQuery("#stepper4").attr("class", "stepper-item completed")
+            }, 500);
+
+        });
+
+        jQuery("#step4btn button").click(function() {
+            jQuery("#step4").fadeOut();
+            setTimeout(function() {
+                jQuery("#step5").fadeIn();
+                jQuery("#stepper5").attr("class", "stepper-item completed")
+            }, 500);
+
+        });
+
+        jQuery("#duration").click(function() {
+            jQuery("#durationSelection").show();
+        });
+
+        jQuery("#when").on('click', '.duration_option', function() {
+            jQuery("#duration").html(jQuery(this).text() + "&nbsp;&#8616;");
+            jQuery("#durationSelection").hide();
+        });
+
+        jQuery(document).mouseup(function(e) {
+            var container = jQuery("#durationSelection");
+
+            // if the target of the click isn't the container nor a descendant of the container
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                container.hide();
+            }
+        });
+    });
+
+    var week = new DayPilot.Calendar("calander");
+    week.viewType = "Week";
+    configureCalendar(week);
+    week.init();
+
+    function configureCalendar(dp) {
+        dp.contextMenu = new DayPilot.Menu({
+            items: [{
+                text: "Delete",
+                onClick: function(args) {
+                    var params = {
+                        id: args.source.id(),
+                    };
+                    DayPilot.Http.ajax({
+                        url: "calendar_delete.php",
+                        data: params,
+                        success: function(ajax) {
+                            dp.events.remove(params.id);
+                            dp.message("Deleted");
+                        }
+                    });
+                }
+            }, {
+                text: "-"
+            }, {
+                text: "Blue",
+                icon: "icon icon-blue",
+                color: "#3d85c6",
+                onClick: function(args) {
+                    updateColor(args.source, args.item.color);
+                }
+            }, {
+                text: "Green",
+                icon: "icon icon-green",
+                color: "#6aa84f",
+                onClick: function(args) {
+                    updateColor(args.source, args.item.color);
+                }
+            }, {
+                text: "Orange",
+                icon: "icon icon-orange",
+                color: "#e69138",
+                onClick: function(args) {
+                    updateColor(args.source, args.item.color);
+                }
+            }, {
+                text: "Red",
+                icon: "icon icon-red",
+                color: "#cc4125",
+                onClick: function(args) {
+                    updateColor(args.source, args.item.color);
+                }
+            }]
+        });
+
+
+        dp.onBeforeEventRender = function(args) {
+            if (!args.data.backColor) {
+                args.data.backColor = "#6aa84f";
+            }
+            args.data.borderColor = "darker";
+            args.data.fontColor = "#fff";
+            args.data.barHidden = true;
+
+            args.data.areas = [{
+                right: 2,
+                top: 2,
+                width: 20,
+                height: 20,
+                html: "&equiv;",
+                action: "ContextMenu",
+                cssClass: "area-menu-icon",
+                visibility: "Hover"
+            }];
+        };
+
+        dp.onEventMoved = function(args) {
+            DayPilot.Http.ajax({
+                url: "calendar_move.php",
+                data: {
+                    id: args.e.id(),
+                    newStart: args.newStart,
+                    newEnd: args.newEnd
+                },
+                success: function() {
+                    console.log("Moved.");
+                }
+            });
+        };
+
+        dp.onEventResized = function(args) {
+            DayPilot.Http.ajax({
+                url: "calendar_move.php",
+                data: {
+                    id: args.e.id(),
+                    newStart: args.newStart,
+                    newEnd: args.newEnd
+                },
+                success: function() {
+                    console.log("Resized.");
+                }
+            });
+
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function(args) {
+
+            /*var form = [{
+                name: "Name",
+                id: "text"
+            }, {
+                name: "Start",
+                id: "start",
+                dateFormat: "MMMM d, yyyy h:mm tt",
+                disabled: true
+            }, {
+                name: "End",
+                id: "end",
+                dateFormat: "MMMM d, yyyy h:mm tt",
+                disabled: true
+            }, ];*/
+
+            var data = {
+                start: args.start,
+                end: args.end,
+                text: "Event"
+            };
+
+            console.log(data);
+
+            /*DayPilot.Modal.form(form, data).then(function(modal) {
+                dp.clearSelection();
+
+                if (modal.canceled) {
+                    return;
+                }
+
+                DayPilot.Http.ajax({
+                    url: "calendar_create.php",
+                    data: modal.result,
+                    success: function(ajax) {
+                        var dp = switcher.active.control;
+                        dp.events.add({
+                            start: data.start,
+                            end: data.end,
+                            id: ajax.data.id,
+                            text: data.text
+                        });
+                    }
+                });
+
+            });*/
+        };
+
+        /*dp.onEventClick = function(args) {
+            DayPilot.Modal.alert(args.e.data.text);
+        };*/
+    }
+</script>
+{% endblock %}
