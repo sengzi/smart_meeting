@@ -57,6 +57,7 @@ class Event_Voting(models.Model):
     eventdate_id = models.ForeignKey(Event_Date, on_delete=models.CASCADE)
     member_id = models.ForeignKey(Member, on_delete=models.CASCADE)
     result = models.IntegerField(default=0)
+    reason = models.TextField(default="")
 
     class Meta:
         db_table = "event_voting"

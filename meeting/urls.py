@@ -12,4 +12,8 @@ urlpatterns = [
     path('logout', views.logout, name="logout"),
     path('voting',views.voting,name="voting"),
     path('calendar',views.group_meeting,name="calendar"),
+    path('voting_wait',views.voting_wait,name="voting_wait"),
+    path('voting_done',views.voting_done,name="voting_done"),
+    path('profile', views.profile, name="profile"),
+    path('appointment', views.appointment, name="appointment"),
 ]
