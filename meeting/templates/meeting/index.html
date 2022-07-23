@@ -70,7 +70,7 @@
 <section class="u-clearfix u-section-1" id="carousel_5e1d">
     <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-sm u-sheet-1">
         <h1 class="u-align-center u-custom-font u-text u-text-palette-5-dark-1 u-text-1">Smart Meetings</h1>
-        <p class="u-align-center u-text u-text-2">We power the scheduling of meetings for tens of thousands of companies. <br><a href="https://prod.liveshare.vsengsaas.visualstudio.com/join?D974671F12442ACAC5D132AADBBAE52954A1">Modify Page</a></p>
+        <p class="u-align-center u-text u-text-2">We power the scheduling of meetings for tens of thousands of companies. <br><a href="https://prod.liveshare.vsengsaas.visualstudio.com/join?0C9E419DF52205105F1841156A32DE067F6D">Modify Page</a></p>
         <a href="#" class="u-btn u-button-style u-palette-3-base u-btn-1" id="getStart">Get Start</a>
         <div class="u-opacity u-opacity-55 u-shape u-shape-svg u-text-palette-5-dark-1 u-shape-1">
             <svg class="u-svg-link" preserveAspectRatio="none" viewBox="0 0 160 160">
@@ -122,35 +122,29 @@
 
 <script>
     jQuery(document).ready(function() {
+        
+        var login = "{{ login }}";
+
         jQuery("#getStart").click(function() {
-            Swal.fire({
-                title: 'Get Started!',
-                text: "Create a free account to get more features at your disposal:",
-                showDenyButton: true,
-                confirmButtonText: 'Register New Account',
-                denyButtonText: `Try as a Guest`,
-            }).then((result) => {
-                if (result.isConfirmed) { //Register New Account
-                    location.replace("{% url 'register' %}")
-                } else if (result.isDenied) { //Try as a Guest
-                    location.replace("{% url 'group_meeting' %}")
-                    /*Swal.fire({
-                        title: 'Try as a Guest',
-                        text: 'What do you want to do?',
-                        //showCancelButton: true,
-                        confirmButtonText: 'Arrange a Group Event',
-                        //cancelButtonText: 'Arrange a Group Event',
-                        confirmButtonColor: '#f1c50e',
-                        //cancelButtonColor: '#f1c50e',
-                    }).then((result) => {
-                        if (result.isConfirmed) { //Register New Account
-                            Swal.fire('Saved!', '', 'success')
-                        } else {
-                            location.replace("{% url 'group_meeting' %}")
-                        //}
-                    });*/
-                }
-            });
+            
+            if(login == "True"){
+                location.replace("{% url 'group_meeting' %}");
+            }
+            else{
+                Swal.fire({
+                    title: 'Get Started!',
+                    text: "Create a free account to get more features at your disposal:",
+                    showDenyButton: true,
+                    confirmButtonText: 'Register New Account',
+                    denyButtonText: `Try as a Guest`,
+                }).then((result) => {
+                    if (result.isConfirmed) { //Register New Account
+                        location.replace("{% url 'register' %}");
+                    } else if (result.isDenied) { //Try as a Guest
+                        location.replace("{% url 'group_meeting' %}");
+                    }
+                });
+            } 
         });
     });
 </script>

@@ -1,0 +1,142 @@
+{% extends 'meeting/base/base.html' %}{% load static %}{% block site_css %}
+
+<style>
+    .content-box {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        position: relative;
+        overflow: hidden;
+        max-width: 65%;
+        min-height: 100px;
+        margin: auto;
+        margin-bottom: 2%;
+    }
+    
+    .button-box {
+        background-color: #fff;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        max-width: 65%;
+        min-height: 100px;
+        margin: auto;
+        margin-bottom: 2%;
+    }
+    
+    tr,
+    tr td {
+        height: 20px;
+    }
+    
+    td {
+        text-align: center;
+        top: -12px;
+    }
+    
+    tr td {
+        border-right: 1px solid #eee;
+        padding: 0;
+        white-space: none;
+        word-wrap: nowrap;
+    }
+</style>
+
+{% endblock %} {% block body %}
+<html lang="en">
+
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <title>Voting_Wait</title>
+    <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+
+
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'meeting/css/bootstrap.min.css' %}">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="{% static 'meeting/css/style.css' %}">
+
+</head>
+
+
+<body>
+
+    <div class="content">
+        {% if result %}
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+
+                            <h3 class="heading mb-4">Thanks to using our website!</h3>
+                            <!-- <p>Please wait other invitation member voting their time we will email Final Result after all the voting is done.</p> -->
+                            <p>Here is your appoinment details</p>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-box">
+            <table width="100%">
+                <tr id="final_title">
+                    <th>Title:</th>
+                    <td class="word">{{ title }}</td>
+                </tr>
+                <tr id="final_description">
+                    <th>Description:</th>
+                    <td class="word">{{ description }}</td>
+                </tr>
+                <tr id="final_where">
+                    <th>Where/How:</th>
+                    <td class="word">{{ location }}</td>
+                </tr>
+                <tr id="final_times">
+                    <th>Times:</th>
+                    <td class="word">
+                        {% for d in date %} {{ d.datetime_from }} - {{ d.datetime_to }} {% endfor %}
+                    </td>
+                </tr>
+                <tr id="final_invites">
+                    <th>Invites:</th>
+                    <td class="word">
+                        {% for p in people %} {{ p.member_id.member_name }} <br> {% endfor %}
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        {% else %}
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+
+                            <h3 class="heading mb-4">Thanks to using our website!</h3>
+                            <!-- <p>Please wait other invitation member voting their time we will email Final Result after all the voting is done.</p> -->
+                            <p>We will inform your result to organiser soon!</p>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="button-box">
+            <a href="/"><button type="button" class="u-btn u-button-style u-palette-3-base u-btn-1" id="getStart">Back</button></a>
+        </div>
+    </div>
+
+
+</body>
+
+{% endblock %}

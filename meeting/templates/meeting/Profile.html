@@ -1,0 +1,1078 @@
+{% extends 'meeting/base/base.html' %} {% load static %} {% block site_css %}
+
+<style data-mode="XL">
+    @media (min-width: 1200px) {
+        .u-block-eaa1-2 {
+            min-height: 1062px;
+        }
+        .u-block-eaa1-3 {
+            width: 100%;
+            margin-top: 60px;
+            margin-left: 0;
+            margin-right: 0;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-4 {
+            min-height: 230px;
+            background-image: none;
+        }
+        .u-block-eaa1-5 {
+            padding-top: 25px;
+            padding-bottom: 25px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .u-block-eaa1-8 {
+            width: 158px;
+            height: 141px;
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 80px;
+        }
+        .u-block-eaa1-9 {
+            margin-top: -129px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 374px;
+        }
+        .u-block-eaa1-10 {
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 374px;
+        }
+        .u-block-eaa1-11 {
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 374px;
+        }
+        .u-block-eaa1-6 {
+            min-height: 772px;
+            background-image: none;
+        }
+        .u-block-eaa1-7 {
+            padding-top: 21px;
+            padding-bottom: 21px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .u-block-eaa1-12 {
+            min-height: 730px;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-15 {
+            font-size: 1.25rem;
+            background-image: none;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-17 {
+            font-size: 1.25rem;
+            background-image: none;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-19 {
+            font-size: 1.25rem;
+            background-image: none;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-21 {
+            background-image: none;
+        }
+        .u-block-eaa1-22 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .u-block-eaa1-23 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 0;
+        }
+        .u-block-eaa1-66 {
+            background-image: none;
+        }
+        .u-block-eaa1-67 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .u-block-eaa1-68 {
+            line-height: 1.8;
+            margin-top: -30px;
+            margin-left: -30px;
+            margin-right: -30px;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-69 {
+            background-image: none;
+        }
+        .u-block-eaa1-70 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .u-block-eaa1-71 {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-72 {
+            margin-left: 0;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-73 {
+            margin-left: 0;
+            margin-right: 0;
+            border-style: solid;
+            text-transform: uppercase;
+        }
+    }
+</style>
+<style data-mode="LG">
+    @media (max-width: 1199px) and (min-width: 992px) {
+        .u-block-eaa1-2 {
+            min-height: 430px;
+        }
+        .u-block-eaa1-3 {
+            margin-top: 60px;
+            margin-bottom: 0;
+            position: relative;
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .u-block-eaa1-4 {
+            min-height: 230px;
+            background-image: none;
+        }
+        .u-block-eaa1-5 {
+            padding-top: 25px;
+            padding-bottom: 25px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .u-block-eaa1-8 {
+            width: 40px;
+            height: 36px;
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 0;
+        }
+        .u-block-eaa1-9 {
+            margin-top: -24px;
+            margin-left: 374px;
+            margin-right: auto;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-10 {
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 374px;
+        }
+        .u-block-eaa1-11 {
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 374px;
+        }
+        .u-block-eaa1-6 {
+            min-height: 772px;
+            background-image: none;
+        }
+        .u-block-eaa1-7 {
+            padding-top: 21px;
+            padding-bottom: 21px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .u-block-eaa1-12 {
+            min-height: 730px;
+            margin-top: 0;
+            margin-bottom: 0;
+            height: auto;
+        }
+        .u-block-eaa1-15 {
+            background-image: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-17 {
+            background-image: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-19 {
+            background-image: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-21 {
+            background-image: none;
+        }
+        .u-block-eaa1-22 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .u-block-eaa1-23 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 0;
+        }
+        .u-block-eaa1-66 {
+            background-image: none;
+        }
+        .u-block-eaa1-67 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .u-block-eaa1-68 {
+            line-height: 1.8;
+            margin-top: -30px;
+            margin-left: -30px;
+            margin-right: -30px;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-69 {
+            background-image: none;
+        }
+        .u-block-eaa1-70 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .u-block-eaa1-71 {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-72 {
+            margin-left: 0;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-73 {
+            margin-left: 0;
+            margin-right: 0;
+            border-style: solid;
+            text-transform: uppercase;
+        }
+    }
+</style>
+<style data-mode="MD">
+    @media (max-width: 991px) and (min-width: 768px) {
+        .u-block-eaa1-2 {
+            min-height: 352px;
+        }
+        .u-block-eaa1-3 {
+            margin-top: 60px;
+            margin-bottom: 0;
+            position: relative;
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .u-block-eaa1-4 {
+            min-height: 100px;
+            background-image: none;
+        }
+        .u-block-eaa1-5 {
+            padding-top: 25px;
+            padding-bottom: 25px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .u-block-eaa1-8 {
+            width: 40px;
+            height: 36px;
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 0;
+        }
+        .u-block-eaa1-9 {
+            margin-top: -24px;
+            margin-left: 374px;
+            margin-right: auto;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-10 {
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 374px;
+        }
+        .u-block-eaa1-11 {
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 374px;
+        }
+        .u-block-eaa1-6 {
+            min-height: 772px;
+            background-image: none;
+        }
+        .u-block-eaa1-7 {
+            padding-top: 21px;
+            padding-bottom: 21px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .u-block-eaa1-12 {
+            min-height: 730px;
+            margin-top: 0;
+            margin-bottom: 0;
+            height: auto;
+        }
+        .u-block-eaa1-15 {
+            background-image: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-17 {
+            background-image: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-19 {
+            background-image: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-21 {
+            background-image: none;
+        }
+        .u-block-eaa1-22 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .u-block-eaa1-23 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 0;
+        }
+        .u-block-eaa1-66 {
+            background-image: none;
+        }
+        .u-block-eaa1-67 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .u-block-eaa1-68 {
+            line-height: 1.8;
+            margin-top: -30px;
+            margin-left: -30px;
+            margin-right: -30px;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-69 {
+            background-image: none;
+        }
+        .u-block-eaa1-70 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .u-block-eaa1-71 {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-72 {
+            margin-left: 0;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-73 {
+            margin-left: 0;
+            margin-right: 0;
+            border-style: solid;
+            text-transform: uppercase;
+        }
+    }
+</style>
+<style data-mode="SM">
+    @media (max-width: 767px) and (min-width: 576px) {
+        .u-block-eaa1-2 {
+            min-height: 290px;
+        }
+        .u-block-eaa1-3 {
+            margin-top: 60px;
+            margin-bottom: 0;
+            position: relative;
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .u-block-eaa1-4 {
+            min-height: 100px;
+            background-image: none;
+        }
+        .u-block-eaa1-5 {
+            padding-top: 25px;
+            padding-bottom: 25px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .u-block-eaa1-8 {
+            width: 40px;
+            height: 36px;
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 0;
+        }
+        .u-block-eaa1-9 {
+            margin-top: -24px;
+            margin-left: 748px;
+            margin-right: auto;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-10 {
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 748px;
+        }
+        .u-block-eaa1-11 {
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 748px;
+        }
+        .u-block-eaa1-6 {
+            min-height: 772px;
+            background-image: none;
+        }
+        .u-block-eaa1-7 {
+            padding-top: 21px;
+            padding-bottom: 21px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .u-block-eaa1-12 {
+            min-height: 730px;
+            margin-top: 0;
+            margin-bottom: 0;
+            height: auto;
+        }
+        .u-block-eaa1-15 {
+            background-image: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-17 {
+            background-image: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-19 {
+            background-image: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-21 {
+            background-image: none;
+        }
+        .u-block-eaa1-22 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .u-block-eaa1-23 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 0;
+        }
+        .u-block-eaa1-66 {
+            background-image: none;
+        }
+        .u-block-eaa1-67 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .u-block-eaa1-68 {
+            line-height: 1.8;
+            margin-top: -30px;
+            margin-left: -30px;
+            margin-right: -30px;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-69 {
+            background-image: none;
+        }
+        .u-block-eaa1-70 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .u-block-eaa1-71 {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-72 {
+            margin-left: 0;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-73 {
+            margin-left: 0;
+            margin-right: 0;
+            border-style: solid;
+            text-transform: uppercase;
+        }
+    }
+</style>
+<style data-mode="XS">
+    @media (max-width: 575px) {
+        .u-block-eaa1-2 {
+            min-height: 220px;
+        }
+        .u-block-eaa1-3 {
+            margin-top: 60px;
+            margin-bottom: 0;
+            position: relative;
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .u-block-eaa1-4 {
+            min-height: 100px;
+            background-image: none;
+        }
+        .u-block-eaa1-5 {
+            padding-top: 25px;
+            padding-bottom: 25px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .u-block-eaa1-8 {
+            width: 40px;
+            height: 36px;
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 0;
+        }
+        .u-block-eaa1-9 {
+            margin-top: -24px;
+            margin-left: 748px;
+            margin-right: auto;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-10 {
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 748px;
+        }
+        .u-block-eaa1-11 {
+            margin-top: 20px;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 748px;
+        }
+        .u-block-eaa1-6 {
+            min-height: 772px;
+            background-image: none;
+        }
+        .u-block-eaa1-7 {
+            padding-top: 21px;
+            padding-bottom: 21px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .u-block-eaa1-12 {
+            min-height: 730px;
+            margin-top: 0;
+            margin-bottom: 0;
+            height: auto;
+        }
+        .u-block-eaa1-15 {
+            background-image: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-17 {
+            background-image: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-19 {
+            background-image: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+        .u-block-eaa1-21 {
+            background-image: none;
+        }
+        .u-block-eaa1-22 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .u-block-eaa1-23 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-right: auto;
+            margin-bottom: 0;
+            margin-left: 0;
+        }
+        .u-block-eaa1-66 {
+            background-image: none;
+        }
+        .u-block-eaa1-67 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .u-block-eaa1-68 {
+            line-height: 1.8;
+            margin-top: -30px;
+            margin-left: -30px;
+            margin-right: -30px;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-69 {
+            background-image: none;
+        }
+        .u-block-eaa1-70 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .u-block-eaa1-71 {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-72 {
+            margin-left: 0;
+            margin-bottom: 0;
+        }
+        .u-block-eaa1-73 {
+            margin-left: 0;
+            margin-right: 0;
+            border-style: solid;
+            text-transform: uppercase;
+        }
+    }
+    
+    .calendar {
+        margin: 0 auto;
+        max-width: 1280px;
+        min-width: 500px;
+        box-shadow: 0px 30px 50px rgba(0, 0, 0, 0.2), 0px 3px 7px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+    
+    .wrap {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        max-width: 1280px;
+        height: 500px;
+        border-radius: 8px;
+    }
+    
+    thead {
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    thead th {
+        text-align: center;
+        width: 100%;
+    }
+    
+    tbody {
+        position: relative;
+        top: 12px;
+    }
+    
+    .calendar-table {
+        background: #fff;
+        width: 100%;
+        height: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+    
+    .headcol {
+        width: 60px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.5);
+        padding: 0.25rem 0;
+        text-align: center;
+        border: 0;
+        position: relative;
+        top: -12px;
+        border-bottom: 1px solid transparent;
+    }
+    
+    tr,
+    tr td {
+        height: 20px;
+    }
+    
+    td {
+        text-align: center;
+        top: -12px;
+    }
+    
+    tr:nth-child(odd) td:not(.headcol) {
+        border-bottom: 1px solid #e8e8e8;
+    }
+    
+    tr:nth-child(even) td:not(.headcol) {
+        border-bottom: 1px solid #eee;
+    }
+    
+    tr td {
+        border-right: 1px solid #eee;
+        padding: 0;
+        white-space: none;
+        word-wrap: nowrap;
+    }
+    
+    tbody tr td {
+        position: relative;
+        vertical-align: top;
+        height: 40px;
+        padding: 0.25rem 0.25rem 0 0.25rem;
+        width: auto;
+    }
+    
+    .event {
+        background: #00B4FC;
+        color: white;
+        border-radius: 2px;
+        text-align: left;
+        font-size: 0.875rem;
+        z-index: 2;
+        padding: 0.5rem;
+        overflow-x: hidden;
+        transition: all 0.2s;
+        cursor: pointer;
+        position: absolute;
+        width: 95%;
+    }
+</style>
+
+{% endblock %} {% block body %}
+
+<body class="u-body u-xl-mode" data-style="blank" data-posts="" data-global-section-properties="{&quot;colorings&quot;:{&quot;light&quot;:[&quot;clean&quot;],&quot;colored&quot;:[&quot;clean&quot;],&quot;dark&quot;:[&quot;dark&quot;]}}" data-source="blank"
+    data-lang="en" data-page-sections-style="[]" data-page-coloring-types="{&quot;light&quot;:[&quot;clean&quot;],&quot;colored&quot;:[&quot;clean&quot;],&quot;dark&quot;:[&quot;dark&quot;]}" data-page-category="&quot;Basic&quot;">
+    <section class="u-clearfix u-block-eaa1-1" custom-posts-hash="[]" data-style="blank" data-section-properties="{&quot;margin&quot;:&quot;none&quot;,&quot;stretch&quot;:true}" id="sec-a5c8" data-source="Blank" data-id="eaa1">
+        <div class="u-clearfix u-sheet u-block-eaa1-2">
+            <div class="u-clearfix u-layout-wrap u-block-eaa1-3">
+                <div class="u-layout">
+                    <div class="u-layout-col">
+                        <div class="u-container-style u-grey-5 u-layout-cell u-size-30 u-block-eaa1-4">
+                            <div class="u-container-layout u-block-eaa1-5">
+                                <!-- <img class="" src="{% static 'meeting/images/1.jpeg' %}" alt="" data-image-width="400px" data-image-height="400px" text-align="right"> -->
+                                <p id='name' class="u-align-left u-text u-text-default u-block-eaa1-9">Name : </p>
+                                <p id='email' class="u-align-left u-text u-text-default u-block-eaa1-10">E-mail:</p>
+                                <p id='phone' class="u-align-left u-text u-text-default u-block-eaa1-11">Phone:</p>
+                            </div>
+                        </div>
+                        <div class="u-container-style u-layout-cell u-palette-3-light-3 u-size-30 u-block-eaa1-6">
+                            <div class="u-container-layout u-valign-bottom u-block-eaa1-7">
+                                <div class="u-expanded-width u-tabs u-block-eaa1-12">
+                                    <ul class="u-tab-list u-unstyled u-block-eaa1-13" role="tablist">
+                                        <li class="u-tab-item u-block-eaa1-14" role="presentation">
+                                            <a class="active u-active-white u-button-style u-tab-link u-block-eaa1-15" id="link-tab-0da5" href="#tab-0da5" role="tab" aria-controls="tab-0da5" aria-selected="true">Schedule</a>
+                                        </li>
+                                        <!-- <li class="u-tab-item u-block-eaa1-16" role="presentation">
+                                            <a class="u-active-white u-button-style u-tab-link u-block-eaa1-17" id="link-tab-14b7" href="#tab-14b7" role="tab" aria-controls="tab-14b7" aria-selected="false">Upcoming Events</a>
+                                        </li> -->
+                                        <!-- <li class="u-tab-item u-block-eaa1-18" role="presentation">
+                                            <a class="u-active-white u-button-style u-tab-link u-block-eaa1-19" id="link-tab-2917" href="#tab-2917" role="tab" aria-controls="tab-2917" aria-selected="false">Reviews</a>
+                                        </li> -->
+                                    </ul>
+                                    <div class="u-tab-content u-block-eaa1-20">
+                                        <div class="u-container-style u-tab-active u-tab-pane u-white u-block-eaa1-21" id="tab-0da5" role="tabpanel" aria-labelledby="link-tab-0da5">
+                                            <div class="u-container-layout u-block-eaa1-22">
+
+                                                <div class="calendar" style="margin-top: 30px;margin-bottom: 30px;" id="recommandCalendar">
+
+                                                    <div class="outer">
+
+                                                        <div class="wrap">
+                                                            <table class="offset calendar-table" id="calendar">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th></th>
+                                                                        {% for key, value in week.items %}
+                                                                        <th>{{ value }}<br>{{ key }}</th>
+                                                                        {% endfor %}
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="headcol"></td>
+                                                                        <td style="border-right-color:white;"></td>
+                                                                        <td style="border-right-color:white;"></td>
+                                                                        <td style="border-right-color:white;"></td>
+                                                                        <td style="border-right-color:white;"></td>
+                                                                        <td style="border-right-color:white;"></td>
+                                                                        <td style="border-right-color:white;"></td>
+                                                                        <td style="border-right-color:white;"></td>
+                                                                        <td class="headcol"></td>
+                                                                    </tr>
+                                                                    {% for time in time_range %}
+                                                                    <tr>
+                                                                        <td class="headcol"><span style="margin-top: -15px;position: absolute;">{{ time }}</span></td>
+                                                                        <td class="contentcol"></td>
+                                                                        <td class="contentcol"></td>
+                                                                        <td class="contentcol"></td>
+                                                                        <td class="contentcol"></td>
+                                                                        <td class="contentcol"></td>
+                                                                        <td class="contentcol"></td>
+                                                                        <td class="contentcol"></td>
+                                                                        <td class="headcol"></td>
+                                                                    </tr>
+                                                                    {% endfor %}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <!-- <div class="u-align-left u-container-style u-tab-pane u-white u-block-eaa1-66" id="tab-14b7" role="tabpanel" aria-labelledby="link-tab-14b7">
+                                            <div class="u-container-layout u-valign-top u-block-eaa1-67">
+                                                <p class="u-text u-block-eaa1-68">Sample text. Click to select the text box. Click again or double click to start editing the text. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.<br>
+                                                    <br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.&nbsp;Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                                    nulla pariatur.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="u-container-style u-tab-pane u-white u-block-eaa1-69" id="tab-2917" role="tabpanel" aria-labelledby="link-tab-2917">
+                                            <div class="u-container-layout u-block-eaa1-70">
+                                                <h4 class="u-text u-text-default u-block-eaa1-71">Be The First To Review This Product!</h4>
+                                                <p class="u-text u-text-default u-block-eaa1-72">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
+                                                <a href="" class="u-btn u-button-style u-block-eaa1-73">write product review</a>
+                                            </div>
+                                        </div> -->
+                                        <div>
+                                            <a href="{% url 'calendar' %}?member_id={{ member_id }}" class="u-btn u-button-style u-palette-3-base u-btn-1 pollbutton" style="margin:auto;" id="pollBtn2">Select</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script>
+    const csrftoken = "{{ csrftoken }}";
+
+    jQuery(document).ready(function() {
+
+        var week = JSON.parse('{{ json_week }}');
+        var time_range = JSON.parse('{{ json_time_range }}');
+        var member_id = "{{ member_id }}";
+        var member_name = document.getElementById('name')
+        var member_email = document.getElementById('email')
+        var member_phone = document.getElementById('phone')
+        member_name.innerHTML = "Name  : " + "{{member_name}}"
+        member_email.innerHTML = "Email  : " + "{{member_email}}"
+        member_phone.innerHTML = "Phone : " + "{{member_phone}}"
+
+        week = Object.keys(week).map((key) => week[key]);
+
+        jQuery("#calendar").on('click', '.event.click-event', function() {
+            window.location.href = "{% url 'appointment' %}?event=" + jQuery(this).attr("id").replace("event", "");
+        });
+
+        for (var y = 2; y < 9; y++) {
+            jQuery('#calendar tbody tr:nth-child(' + (49) + ') td:nth-child(' + (y) + ')').hide();
+        }
+
+        for (var z = 2; z < 49; z++) {
+            jQuery('#calendar tbody tr:nth-child(' + (z) + ') td:nth-child(' + (2) + ')').attr("style", "border-left: 1px solid #eee;");
+        }
+
+
+
+        calendar_event("", week, member_id);
+    });
+
+
+    function calendar_event(people, week, member_id) {
+
+        reload_calendar();
+
+        jQuery.ajax({
+            url: "/profile",
+            data: {
+                'invite_people': people,
+                'member_id': member_id
+            },
+            type: 'POST',
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+        }).done(function(response) {
+            var disable_date = JSON.parse(response);
+            week = Object.keys(week).map((key) => week[key]);
+
+            add_event(disable_date, week, 0, "calendar");
+        });
+    }
+
+    function reload_calendar() {
+        var tr = 49;
+        var td = 9;
+
+        for (var i = 2; i < tr; i++) {
+            for (var j = 2; j < td; j++) {
+                jQuery('#calendar tbody tr:nth-child(' + i + ') td:nth-child(' + j + ') .event').remove();
+            }
+        }
+    }
+
+    function add_event(date_list, week, count, id) {
+        for (var a = 0; a < date_list.length; a++) {
+
+            var date = date_list[a].start.split(" ");
+            for (var b = 0; b < 7; b++) {
+                if (date[0] == week[b]) {
+                    var start_times = date[1].split(":");
+                    var start_time = (parseInt(start_times[0]) * 2);
+                    var end_times = date_list[a].end.split(" ")[1].split(":");
+                    var end_time = (parseInt(end_times[0]) * 2);
+                    var duration = ((parseInt(end_times[0]) - parseInt(start_times[0])) * 2);
+                    var height;
+
+                    if (duration < 0) {
+                        duration = -duration;
+                    }
+
+                    if (start_times[1] == "30") {
+                        start_time++;
+                    }
+
+                    if (start_times[1] < end_times[1]) {
+                        duration = duration + 1;
+                    } else if (start_times[1] > end_times[1]) {
+                        duration = duration - 1;
+                    }
+
+                    if (duration > 1) {
+                        height = (duration * 80) + ((duration - 1) * 22)
+                    } else {
+                        height = duration * 80;
+                    }
+
+                    if (date_list[a].event != "Google Calendar" && date_list[a].event != "Recommend") {
+                        jQuery('#' + id + ' tbody tr:nth-child(' + (start_time + 2) + ') td:nth-child(' + (b + 2) + ')').append('<div class="event click-event" id="event' + date_list[a].event_id + '" style="height:' + height + '%;background-color:#' + date_list[a].color + ';"><label for="check"></label>' + start_times[0] + ':' + start_times[1] + '–' + end_times[0] + ':' + end_times[1] + '<br>' + date_list[a].event + '</div>');
+                    } else {
+                        jQuery('#' + id + ' tbody tr:nth-child(' + (start_time + 2) + ') td:nth-child(' + (b + 2) + ')').append('<div class="event" style="height:' + height + '%;background-color:#' + date_list[a].color + ';"><label for="check"></label>' + start_times[0] + ':' + start_times[1] + '–' + end_times[0] + ':' + end_times[1] + '<br>' + date_list[a].event + '</div>');
+                    }
+
+
+                    for (var c = 0; c < duration; c++) {
+                        jQuery('#' + id + ' tbody tr:nth-child(' + (start_time + 2 + c) + ') td:nth-child(' + (b + 2) + ')').addClass("cannot");
+                        jQuery('#' + id + ' tbody tr:nth-child(' + (start_time + 2 + c) + ') td:nth-child(' + (b + 2) + ')').addClass("duration" + duration);
+                    }
+                }
+            }
+
+        }
+    }
+</script>
+
+{% endblock %}

@@ -521,6 +521,9 @@
             }
         }
 
+        jQuery("#title").hide();
+        jQuery("#invite_people").hide();
+        jQuery("#recommandCalendar").hide();
         jQuery("#durationSelection").hide();
         jQuery(".lds-ring").hide();
 
@@ -536,10 +539,11 @@
 
         calendar_event("", week, member_id);
 
+        sessionStorage.setItem("poll", "");
         sessionStorage.setItem("title", "");
         sessionStorage.setItem("description", "");
-        sessionStorage.setItem("invite_people", '');
-        sessionStorage.setItem("invite_time", '');
+        sessionStorage.setItem("invite_people", "");
+        sessionStorage.setItem("invite_time", "");
         sessionStorage.setItem("location", "");
 
         // when click the duration, then show the selection
@@ -548,9 +552,18 @@
         });
 
         // add recommand time to invite time
-        jQuery("#recommandTime").on('click', 'input[name="recommandtime"]', function() {
+        jQuery("#recommandTime").on('click', '.timebtn', function() {
             var time = jQuery(this).parent().text().replace("SelectRemove", "").split("–");
-            var time_array = [];
+            var time_array;
+
+            jQuery(this).hide();
+            jQuery(this).next().attr("style", "display: initial;margin-left: 2%;background-color: lightgrey !important;color: white !important;");
+
+            if (sessionStorage.getItem("invite_time") != "") {
+                time_array = JSON.parse(sessionStorage.getItem("invite_time"));
+            } else {
+                time_array = []
+            }
 
             time_array.push({
                 start: time[0],
@@ -559,6 +572,34 @@
             });
 
             sessionStorage.setItem("invite_time", JSON.stringify(time_array));
+        });
+
+        // remove recommand time to invite time
+        jQuery("#recommandTime").on('click', '.removetimebtn', function() {
+            var time = jQuery(this).parent().text().replace("SelectRemove", "").split("–");
+            var time_array;
+
+            jQuery(this).hide();
+            jQuery(this).prev().attr("style", "display: initial;margin-left: 2%;");
+
+            time_array = JSON.parse(sessionStorage.getItem("invite_time"));
+
+            for (var i = 0; i < time_array.length; i++) {
+                if (time_array[i].start == time[0] && time_array[i].end == time[1]) {
+                    time_array.splice(i, 1);
+                }
+            }
+
+            sessionStorage.setItem("invite_time", JSON.stringify(time_array));
+        });
+
+        // after choose a poll option, then appear the title and so on
+        jQuery(".u-btn.u-button-style.u-palette-3-base.u-btn-1.pollbutton").click(function() {
+            var poll = jQuery(this).attr("id").replace("pollBtn", "");
+            jQuery("#title").fadeIn();
+            jQuery("#invite_people").fadeIn();
+            jQuery("#recommandCalendar").fadeIn();
+            sessionStorage.setItem("poll", poll);
         });
 
         // add invite people
@@ -631,17 +672,20 @@
                 jQuery("#stepper" + i).attr("class", "stepper-item");
             }
 
-            jQuery("#final_title .word").empty();
-            jQuery("#final_description .word").empty();
-            jQuery("#final_where .word").empty();
-            jQuery("#final_times .word").empty();
-            jQuery("#final_invites .word").empty();
+            jQuery("#final_title .content-body").empty();
+            jQuery("#final_description .content-body").empty();
+            jQuery("#final_where .content-body").empty();
+            jQuery("#final_times .content-body").empty();
+            jQuery("#final_invites .content-body").empty();
+            jQuery("#final_poll .content-body").empty();
         });
 
         // click "Next:When"
         jQuery("#step1btn button").click(function() {
 
-            if (jQuery("input[name='title']").val() == "") {
+            if (sessionStorage.getItem("poll") == "") {
+                alert("Please select a poll selection");
+            } else if (jQuery("input[name='title']").val() == "") {
                 alert("Please insert a title");
             } else if (jQuery("textarea[name='description']").val() == "") {
                 alert("Please insert a description");
@@ -698,14 +742,23 @@
                         }
                     }
 
-                    jQuery("#final_title .word").append(sessionStorage.getItem("title"));
-                    jQuery("#final_description .word").append(sessionStorage.getItem("description"));
-                    jQuery("#final_where .word").append(sessionStorage.getItem("location"));
-                    jQuery("#final_times .word").append(time_word);
-                    jQuery("#final_invites .word").append(people_word);
+                    if (sessionStorage.getItem("poll") == 2) {
+                        poll = "Allow Maybes";
+                    } else {
+                        poll = "Yes or No";
+                    }
+
+                    jQuery("#final_title .content-body").append("<p>" + sessionStorage.getItem("title") + "</p>");
+                    jQuery("#final_description .content-body").append("<p>" + sessionStorage.getItem("description") + "</p>");
+                    jQuery("#final_where .content-body").append("<p>" + sessionStorage.getItem("location") + "</p>");
+                    jQuery("#final_times .content-body").append("<p>" + time_word + "</p>");
+                    jQuery("#final_invites .content-body").append("<p>" + people_word + "</p>");
+                    jQuery("#final_poll .content-body").append("<p>" + poll + "</p>");
 
                 }, 500);
             }
+
+
         });
 
         // after click "FINALIZE POLL" will save the result in database
@@ -725,6 +778,7 @@
                     'title': sessionStorage.getItem("title"),
                     'description': sessionStorage.getItem("description"),
                     'location': sessionStorage.getItem("location"),
+                    'poll': sessionStorage.getItem("poll"),
                     'invite_time': sessionStorage.getItem("invite_time"),
                     'invite_people': JSON.stringify(people)
                 },
@@ -766,8 +820,6 @@
             var r, full_r;
 
             if (jQuery(".cannot:hover").length > 0) {
-                return false;
-            } else if (jQuery(".limit").length > 0) {
                 return false;
             }
 
@@ -821,8 +873,6 @@
                 var week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
                 var day = jQuery('#calendar thead tr th:nth-child(' + (td) + ')').text();
 
-                jQuery("#calendar").removeClass("limit");
-
                 for (var i = 0; i < 7; i++) {
                     day = day.replace(week[i], "");
                 }
@@ -865,8 +915,6 @@
                     return false;
                 }
 
-            } else if (jQuery(".limit").length > 0) {
-                return false;
             }
 
             date = jQuery("#calendar thead tr th:nth-child(" + (c) + ")").text().slice(0, 10);
@@ -925,8 +973,6 @@
                 height = duration * 80;
             }
 
-            jQuery('#calendar').addClass("limit");
-
             if (addEvent) {
                 jQuery(this).append('<div class="event-close">x</div><div class="event" style="height:' + height + '%"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>' + start_time + '–' + end_time + '<br>' + sessionStorage.getItem("title") + '</div>');
 
@@ -938,6 +984,35 @@
 
 
         });
+
+        /*jQuery("#location").on('change keyup paste', function() {
+            //console.log('I am pretty sure the text box changed');
+            //initialize();
+
+
+            var input = document.getElementById('location');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
+
+            console.log(autocomplete.getPlace());
+
+            // autocomplete.addListener('place_changed', function() {
+            //     var place = autocomplete.getPlace();
+
+            //     var address = '';
+            //     if (place.address_components) {
+            //         address = [
+            //             (place.address_components[0] && place.address_components[0].short_name || ''),
+            //             (place.address_components[1] && place.address_components[1].short_name || ''),
+            //             (place.address_components[2] && place.address_components[2].short_name || '')
+            //         ].join(' ');
+            //     }
+            //     //document.getElementById("testing").innerHTML = place.address_components[2].short_name;
+            //     jQuery('#jform_shipping_address').val(address);
+            //     changemap(address);
+            // });
+        }); //onchange*/
+
     });
 
     function calendar_event(people, week, member_id) {
@@ -976,7 +1051,8 @@
                         var time_word = time_array[i].start + "–" + time_array[i].end;
 
                         if (word == time_word && time_array[i].event == "recommand") {
-                            jQuery(this).children().attr('checked', 'checked');
+                            jQuery(this).children().hide();
+                            jQuery(this).children().next().attr("style", "display: initial;margin-left: 2%;background-color: lightgrey !important;color: white !important;");
                         }
                     }
                 });
@@ -1036,7 +1112,7 @@
                         jQuery('#' + id + ' tbody tr:nth-child(' + (start_time + 2) + ') td:nth-child(' + (b + 2) + ')').append('<div class="event" style="height:' + height + '%;background-color:#' + date_list[a].color + ';"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>' + start_times[0] + ':' + start_times[1] + '–' + end_times[0] + ':' + end_times[1] + '<br>' + date_list[a].event + '</div>');
 
                         if (date_list[a].event == "Recommend") {
-                            jQuery("#recommandTime").append("<li style='margin-bottom: 5%;'>" + date_list[a].start + '–' + date_list[a].end + "<input style='margin-left:3%' name='recommandtime' type='radio'></li>");
+                            jQuery("#recommandTime").append("<li style='margin-bottom: 5%;'>" + date_list[a].start + '–' + date_list[a].end + "<a id='timebtn" + count + "' class='u-btn u-button-style u-palette-3-base u-btn-1 timebtn' style='display: initial;margin-left: 2%;'>Select</a><a id='removetimebtn" + count + "' class='u-btn u-button-style u-palette-3-base u-btn-1 removetimebtn' style='display: none;margin-left: 2%;background-color: lightgrey !important;color: white !important;'>Remove</a></li>");
                             count++;
                         }
                     }
@@ -1053,10 +1129,6 @@
                         if (id == "displaycalendar" && date_list[a].event != "Recommend") {
                             jQuery('#calendar tbody tr:nth-child(' + (start_time + 2 + c) + ') td:nth-child(' + (b + 2) + ')').addClass("cannot");
                             jQuery('#calendar tbody tr:nth-child(' + (start_time + 2 + c) + ') td:nth-child(' + (b + 2) + ')').addClass("duration" + duration);
-                        }
-
-                        if (date_list[a].event != "Google Calendar" && date_list[a].event != "Recommend") {
-                            jQuery('#calendar').addClass("limit");
                         }
                     }
                 }

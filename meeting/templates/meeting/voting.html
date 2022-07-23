@@ -1,4 +1,4 @@
-{% load static %}{% block site_css %}
+{% extends 'meeting/base/base.html' %}{% load static %}{% block site_css %}
 <style>
     @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
     /* body {
@@ -19,6 +19,7 @@
         width: 100%;
         border-radius: 25px;
         background-color: #3e94ec;
+        margin-bottom: 6%;
     }
     
     .table-title h3 {
@@ -198,6 +199,11 @@
         background-color: transparent;
         border-color: #FFFFFF;
     }
+    
+    #box {
+        font-size: 18px;
+        display: none;
+    }
 </style>
 {% endblock %} {% block body %}
 <!--<table>
@@ -220,10 +226,31 @@
 
 <body>
     <div>
+        <div class="table-title">
+            <h3>Information</h3>
+            <table class="table-fill">
+                <thead>
+                    <tr>
+                        <th class="text-left">Title</th>
+                        <th class="text-left">Description</th>
+                        <th class="text-left">Location</th>
+                    </tr>
+                </thead>
+                <tbody class="table-hover">
+                    <tr>
+                        {% for x in event_list %}
+                        <td>{{x.event_title}}</td>
+                        <td>{{x.event_description}}</td>
+                        <td>{{x.event_location}}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <form method="POST" action="#">
             {% csrf_token %}
             <div class="table-title">
-                <h3>Data Table</h3>
+                <h3>Voting Table</h3>
                 <table class="table-fill">
                     <thead>
                         <tr>
@@ -240,14 +267,14 @@
                             <td>{{x.datetime_from}}</td>
                             <td>{{x.datetime_to}}</td>
                             <td>
-                                <input type="radio" name="voting_{{x}}" id="{{x}}yes" value=1 class="input-hidden">
+                                <input type="radio" name="voting_{{x}}" id="{{x}}yes" value=1 class="input-hidden" onclick="Hide()" required>
                                 <label for="{{x}}yes">
                         <img 
                           src="{% static 'meeting/images/true.png' %}" 
                           alt="yes" />
                           
                       </label>
-                                <input type="radio" name="voting_{{x}}" id="{{x}}no" value=0 class="input-hidden">
+                                <input type="radio" name="voting_{{x}}" id="{{x}}no" value=0 class="input-hidden" onclick="toggleText()" required>
                                 <label for="{{x}}no">
                         <img 
                           src="{% static 'meeting/images/false.png' %}" 
@@ -260,16 +287,44 @@
                     </tbody>
                 </table>
                 <button>Submit</button>
+                <div id="box">
+                    <input type="radio" name="reason" id="busy" value="I am busy this time">I am busy this time
+                    <br></br><input type="radio" name="reason" id="unavailable" value="I am currenly unavailable at this time">I am currenly unavailable at this time
+                    <br></br>Other: <input type="text" name="other" id="other">
+                </div>
             </div>
+
+
         </form>
     </div>
 </body>
 
-<!-- <script>
-    jQuery(document).ready(function() {
-        jQuery("tbody tr td img").click(function() {
-            jQuery(this).addClass("green");
-        });
-    });
-</script> -->
+<script>
+    function toggleText() {
+
+        var x = document.getElementById("box");
+        x.style.display = "block";
+        jQuery("#busy").attr("checked", "checked");
+    }
+
+    function Hide() {
+        var x = document.getElementById("box");
+        x.style.display = "none";
+        jQuery("#busy").removeAttr("checked");
+    }
+    // const box = document.getElementById('box');
+
+    // function handleRadioClick() {
+    //     if (document.getElementById('1no').checked) {
+    //         box.style.display = 'block';
+    //     } else {
+    //         box.style.display = 'none';
+    //     }
+    // }
+
+    // const radioButtons = document.querySelectorAll('input[name="voting_{{x}}"]');
+    // radioButtons.forEach(radio => {
+    //     radio.addEventListener('click', handleRadioClick);
+    // });
+</script>
 {% endblock %}

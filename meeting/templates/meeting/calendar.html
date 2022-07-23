@@ -319,6 +319,8 @@
         overflow-x: hidden;
         transition: all 0.2s;
         cursor: pointer;
+        position: absolute;
+        width: 95%;
     }
     
     .event-close {
@@ -332,6 +334,7 @@
         height: 25px;
         width: 25px;
         position: absolute;
+        z-index: 3;
     }
     
     .event:hover {
@@ -530,12 +533,16 @@
 </div>
 
 <div class="content-body" style="margin-left: 17%;">
-    <button type="button" class="u-btn u-button-style u-palette-3-base u-btn-1" id="save">Save</button>
+
+    {% if request.GET.member_id %}
+    <button type="button" class="u-btn u-button-style u-palette-3-base u-btn-1" id="update">Update</button> {% else %}
+    <button type="button" class="u-btn u-button-style u-palette-3-base u-btn-1" id="save">Save</button> {% endif %}
+
 </div>
 
 
 <script>
-    const csrftoken = getCookie('csrftoken');
+    const csrftoken = "{{ csrftoken }}";
 
     jQuery(document).ready(function() {
 
@@ -546,8 +553,11 @@
         var now_date = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + today.getDate();
         var now_time = String(today.getHours()).padStart(2, '0') + ":" + String(today.getMinutes()).padStart(2, '0');
         var time_range = JSON.parse('{{ json_time_range }}');
+        var member_id = JSON.parse('{{ request.GET.member_id }}');
 
         week = Object.keys(week).map((key) => week[key]);
+
+        calendar_event("", week, member_id);
 
         for (var y = 2; y < 9; y++) {
             jQuery('#calendar tbody tr:nth-child(' + (49) + ') td:nth-child(' + (y) + ')').hide();
@@ -568,10 +578,6 @@
 
         jQuery("#duration").click(function() {
             jQuery("#durationSelection").show();
-        });
-
-        jQuery("#save").click(function() {
-            console.log(sessionStorage.getItem("date"));
         });
 
         jQuery(".calendar").on('click', '.duration_option', function() {
@@ -641,6 +647,9 @@
                 var td = parseInt(jQuery(this).parent().index()) + 1;
                 var tr = parseInt(jQuery(this).parent().parent().index()) + 1;
                 var duration = jQuery(this).parent().attr("class").replace("contentcol cannot duration", "");
+                var day = jQuery('#calendar thead tr th:nth-child(' + (td) + ')').text();
+                var remove_start_time = day + " " + jQuery(this).next().text().split("–")[0];
+                var remove_end_time = day + " " + jQuery(this).next().text().split("–")[1];
                 duration = duration.replace("contentcol contentcol-hover cannot duration", "");
 
                 for (var c = 0; c < duration; c++) {
@@ -648,10 +657,9 @@
                 }
 
                 time_array = JSON.parse(sessionStorage.getItem("date"));
-                remove_date = time_array[time_array.length - 1];
 
                 for (var i = 0; i < time_array.length - 1; i++) {
-                    if (time_array[i].start_time == remove_date.start_time && time_array[i].end_time == remove_date.end_time) {
+                    if (time_array[i].start == remove_start_time && time_array[i].end == remove_end_time) {
                         time_array.splice(i, 1);
                     }
                 }
@@ -712,8 +720,8 @@
             }
 
             time_array.push({
-                start_time: date + " " + start_time,
-                end_time: date + " " + end_time,
+                start: date + " " + start_time,
+                end: date + " " + end_time,
             });
 
             sessionStorage.setItem("date", JSON.stringify(time_array));
@@ -722,10 +730,10 @@
                 duration = -duration;
             }
 
-            if (duration > 2) {
-                height = 80 + (duration - 1) * 115
+            if (duration > 1) {
+                height = (duration * 80) + ((duration - 1) * 22)
             } else {
-                height = duration * 100;
+                height = duration * 80;
             }
 
             jQuery(this).append('<div class="event-close">x</div><div class="event" style="height:' + height + '%"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>' + start_time + '–' + end_time + '<br></div>');
@@ -741,6 +749,7 @@
                 url: "/group_meeting",
                 data: {
                     'date': sessionStorage.getItem("date"),
+                    'method': "save"
                 },
                 type: 'POST',
                 beforeSend: function(xhr) {
@@ -755,23 +764,111 @@
                     window.location.href = "/";
                 });
             });
-        })
+        });
+        jQuery("#update").click(function() {
+            jQuery.ajax({
+                url: "/group_meeting",
+                data: {
+                    'date': sessionStorage.getItem("date"),
+                    'method': "update"
+                },
+                type: 'POST',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+            }).done(function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Done update',
+                }).then((result) => {
+                    window.location.href = "{% url 'profile' %}";
+                });
+            });
+        });
     });
 
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+    function calendar_event(people, week, member_id) {
+
+        jQuery.ajax({
+            url: "/group_meeting",
+            data: {
+                'invite_people': people,
+                'member_id': member_id,
+                'type': "calendar"
+            },
+            type: 'POST',
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+        }).done(function(response) {
+            var disable_date = JSON.parse(response);
+            var count = 0;
+
+            week = Object.keys(week).map((key) => week[key]);
+
+            add_event(disable_date, week, count, "calendar");
+        });
+    }
+
+    function add_event(date_list, week, count, id) {
+        for (var a = 0; a < date_list.length; a++) {
+
+            var date = date_list[a].start.split(" ");
+            for (var b = 0; b < 7; b++) {
+                if (date[0] == week[b]) {
+                    var start_times = date[1].split(":");
+                    var start_time = (parseInt(start_times[0]) * 2);
+                    var end_times = date_list[a].end.split(" ")[1].split(":");
+                    var end_time = (parseInt(end_times[0]) * 2);
+                    var duration = ((parseInt(end_times[0]) - parseInt(start_times[0])) * 2);
+                    var height;
+                    var time_array = [];
+                    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                    var d = new Date(date[0]);
+                    var dayName = days[d.getDay()];
+
+                    if (duration < 0) {
+                        duration = -duration;
+                    }
+
+                    if (start_times[1] == "30") {
+                        start_time++;
+                    }
+
+                    if (start_times[1] < end_times[1]) {
+                        duration = duration + 1;
+                    } else if (start_times[1] > end_times[1]) {
+                        duration = duration - 1;
+                    }
+
+                    if (duration > 1) {
+                        height = (duration * 80) + ((duration - 1) * 22)
+                    } else {
+                        height = duration * 80;
+                    }
+
+                    jQuery('#' + id + ' tbody tr:nth-child(' + (start_time + 2) + ') td:nth-child(' + (b + 2) + ')').append('<div class="event-close">x</div><div class="event" style="height:' + height + '%;background-color:#' + date_list[a].color + ';"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>' + start_times[0] + ':' + start_times[1] + '–' + end_times[0] + ':' + end_times[1] + '<br>' + date_list[a].event + '</div>');
+
+                    if (sessionStorage.getItem("date") != "") {
+                        time_array = JSON.parse(sessionStorage.getItem("date"));
+                    }
+
+                    time_array.push({
+                        start: dayName + " " + start_times[0] + ':' + start_times[1],
+                        end: dayName + " " + end_times[0] + ':' + end_times[1],
+                    });
+
+                    sessionStorage.setItem("date", JSON.stringify(time_array));
+
+                    for (var c = 0; c < duration; c++) {
+                        jQuery('#' + id + ' tbody tr:nth-child(' + (start_time + 2 + c) + ') td:nth-child(' + (b + 2) + ')').addClass("cannot");
+                        jQuery('#' + id + ' tbody tr:nth-child(' + (start_time + 2 + c) + ') td:nth-child(' + (b + 2) + ')').addClass("duration" + duration);
+                    }
                 }
             }
+
         }
-        return cookieValue;
     }
 </script>
 

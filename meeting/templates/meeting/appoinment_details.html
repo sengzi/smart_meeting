@@ -1,0 +1,91 @@
+{% extends 'meeting/base/base.html' %}{% load static %}{% block site_css %}
+
+<style>
+    .content-box {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        position: relative;
+        overflow: hidden;
+        max-width: 65%;
+        min-height: 100px;
+        margin: auto;
+        margin-bottom: 2%;
+    }
+    
+    .button-box {
+        background-color: #fff;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        max-width: 65%;
+        min-height: 100px;
+        margin: auto;
+        margin-bottom: 2%;
+    }
+    
+    tr,
+    tr td {
+        height: 20px;
+    }
+    
+    td {
+        text-align: center;
+        top: -12px;
+    }
+    
+    tr td {
+        border-right: 1px solid #eee;
+        padding: 0;
+        white-space: none;
+        word-wrap: nowrap;
+    }
+    
+    img {
+        width: 25px;
+        height: 25px;
+        transition: 200ms all;
+        border-radius: 10px;
+        margin-left: 10px;
+        margin-right: 20px;
+    }
+</style>
+
+{% endblock %} {% block body %}
+
+<div class="content-box">
+    <table width="100%">
+        <tr id="final_title">
+            <th>Title:</th>
+            <td class="word">{{ title }}</td>
+        </tr>
+        <tr id="final_description">
+            <th>Description:</th>
+            <td class="word">{{ description }}</td>
+        </tr>
+        <tr id="final_where">
+            <th>Where/How:</th>
+            <td class="word">{{ location }}</td>
+        </tr>
+        <tr id="final_times">
+            <th>Times:</th>
+            <td class="word">
+                {% for d in date %} {{ d.datetime_from }} - {{ d.datetime_to }} {% endfor %}
+            </td>
+        </tr>
+        <tr id="final_invites">
+            <th>Invites:</th>
+            <td class="word">
+                {% for p in people %} {{ p.member_name }} &nbsp {% if p.voting == 1 %}
+                <img src="{% static 'meeting/images/true.png' %}" alt="yes" /> {% elif p.voting == 0 %}
+                <img src="{% static 'meeting/images/false.png' %}" alt="no" /> {% else %} (Wating to confirm) {% endif %} <br> {% endfor %}
+            </td>
+        </tr>
+
+    </table>
+</div>
+<div class="button-box">
+    <a href="{% url 'profile' %}"><button type="button" class="u-btn u-button-style u-palette-3-base u-btn-1" id="getStart">Back</button></a>
+</div>
+
+{% endblock %}

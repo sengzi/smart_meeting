@@ -1,89 +1,93 @@
-<!-- <div class="content-box" id="invite">
+<div class="content-box" id="invite_people">
     <div class="content-header">
-        Invite Type
+        Invite People{% if not login %} (Please insert your email also) {% endif %}*
     </div>
     <hr style="margin: 0px 10px 0px 10px;">
-    <div class="content-body">
-        <a class="u-btn u-button-style u-palette-3-base u-btn-1" id="bestBtn">Poll for Best Options</a>
-        <input type="radio" value="1" name="poll"> Poll for best time <br>
-        <input type="radio" value="2" name="poll"> Poll for best place or call method <br>
-        <input type="radio" value="3" name="poll"> Poll for best time and place
-        <br>
-    </div>
-</div> -->
+    <div class="content-body" style="text-align:center">
+        <p id="noInvite">No invitees added yet</p>
 
-<div class="content-box" id="poll">
-    <div class="content-header">
-        Poll Response Options
-    </div>
-    <hr style="margin: 0px 10px 0px 10px;">
-    <div class="content-body">
-        <p>How should participants rate each poll option?</p>
-        <div class="row">
-            <div class="column-3">
-                <h4 style="text-align:center">Yes or No</h4>
-                <div class="row">
-                    <div class="column-half">
-                        <div class="rcorners">
-                            <span style="padding-left: 30%;color:#00E676;">&#10004</span>
-                        </div>
-                        <p style="text-align: center;">Available</p>
-                    </div>
-                    <div class="column-half">
-                        <div class="rcorners">
-                            <span style="padding-left: 30%;color:#FF5722;">x</span>
-                        </div>
-                        <p style="text-align: center;">Unavailable</p>
-                    </div>
-                </div>
-                <a class="u-btn u-button-style u-palette-3-base u-btn-1 pollbutton" style="margin:auto;" id="pollBtn1">Select</a>
-            </div>
-            <div class="column-7">
-                <h4 style="text-align:center">Allow Maybes</h4>
-                <div class="row">
-                    <div class="column-quater">
-                        <div class="rcorners">
-                            <i class="material-icons" style="padding-left: 30%;color:#00E676;">sentiment_very_satisfied</i>
-                        </div>
-                        <p style="text-align: center;">Great</p>
-                    </div>
-                    <div class="column-quater">
-                        <div class="rcorners">
-                            <i class="material-icons" style="padding-left: 30%;color:#00b8d4;">sentiment_satisfied</i>
-                        </div>
-                        <p style="text-align: center;">OK</p>
-                    </div>
-                    <div class="column-quater">
-                        <div class="rcorners">
-                            <i class="material-icons" style="padding-left: 30%;color:#FF9800;">sentiment_dissatisfied</i>
-                        </div>
-                        <p style="text-align: center;">Maybe Not</p>
-                    </div>
-                    <div class="column-quater">
-                        <div class="rcorners">
-                            <i class="material-icons" style="padding-left: 30%;color:#FF5722;">sentiment_very_dissatisfied</i>
-                        </div>
-                        <p style="text-align: center;">Nope</p>
-                    </div>
-                </div>
-                <a class="u-btn u-button-style u-palette-3-base u-btn-1 pollbutton" style="margin:auto;" id="pollBtn2">Select</a>
-            </div>
+        <div id="invitePeople">
+
         </div>
+
+        <input type="email" value="qianfu1999@gmail.com" name="participant" placeholder="+ add an email address"> <button type="button" id="addEmail">+</button><br>
     </div>
 </div>
 
 <div class="content-box" id="title">
     <div class="content-header">
-        Title & Location & Description
+        Settings
     </div>
     <hr style="margin: 0px 10px 0px 10px;">
     <div class="content-body">
-        <p><input type="text" name="title" placeholder="Event Name"></p>
-        <p><input type="text" name="location" placeholder="Event Location"></p>
-        <p><textarea name="description" id="" cols="30" rows="10" placeholder="Description fo event"></textarea></p>
+        <div class="row">
+            <div class="column-half">
+                <p><label for="Title">Title *</label><br><input type="text" name="title" placeholder="Event Name"></p>
+                <p><label for="Location">Location *</label><br><input type="text" id="location" name="location" placeholder="Event Location"></p>
+                <p><label for="Description">Description *</label><br><textarea name="description" id="" cols="30" rows="10" placeholder="Description fo event"></textarea></p>
+            </div>
+            <div class="column-half">
+                <h4>Recommand Time (Optional)</h4>
+                <ol id="recommandTime">
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="calendar" style="margin-top: 30px;margin-bottom: 30px;" id="recommandCalendar">
+
+    <div class="outer">
+        <div class="content-header">
+            For your reference
+        </div>
+        <div class="wrap">
+            <table class="offset calendar-table" id="displaycalendar">
+                <thead>
+                    <tr>
+                        <th></th>
+                        {% for key, value in week.items %}
+                        <th>{{ value }}<br>{{ key }}</th>
+                        {% endfor %}
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="headcol"></td>
+                        <td style="border-right-color:white;"></td>
+                        <td style="border-right-color:white;"></td>
+                        <td style="border-right-color:white;"></td>
+                        <td style="border-right-color:white;"></td>
+                        <td style="border-right-color:white;"></td>
+                        <td style="border-right-color:white;"></td>
+                        <td style="border-right-color:white;"></td>
+                        <td class="headcol"></td>
+                    </tr>
+                    {% for time in time_range %}
+                    <tr>
+                        <td class="headcol"><span style="margin-top: -15px;position: absolute;">{{ time }}</span></td>
+                        <td class="contentcol2"></td>
+                        <td class="contentcol2"></td>
+                        <td class="contentcol2"></td>
+                        <td class="contentcol2"></td>
+                        <td class="contentcol2"></td>
+                        <td class="contentcol2"></td>
+                        <td class="contentcol2"></td>
+                        <td class="headcol"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 <div class="button-box" id="step1btn">
-    <button type="button" class="u-btn u-button-style u-palette-3-base u-btn-1" id="getStart">CONTINUE: RECIPIENTS &gt;</button>
+    <button type="button" class="u-btn u-button-style u-palette-3-base u-btn-1" id="getStart">Next: When &rarr;</button>
 </div>
+
+<!-- <div class="button-box" id="step1btn">
+    <button type="button" class="u-btn u-button-style u-palette-3-base u-btn-1" id="getStart">CONTINUE: RECIPIENTS
+        &gt;</button>
+</div> -->
