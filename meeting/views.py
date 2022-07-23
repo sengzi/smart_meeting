@@ -25,7 +25,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-CLIENT_SECRET_FILE = '/home/sengzi/smart_meeting/meeting/credentials.json'
+CLIENT_SECRET_FILE = '/app/meeting/credentials.json'
 #CLIENT_SECRET_FILE = 'C:/Users/Seng Zi/Desktop/smart_meeting/meeting/credentials.json'
 API_NAME = 'calendar'
 API_VERSION = 'v3'
@@ -34,7 +34,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 def main_page(request):
-    print(BASE_DIR)
     return render(request, 'meeting/index.html',{
 
     })
