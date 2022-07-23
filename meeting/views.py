@@ -29,10 +29,11 @@ CLIENT_SECRET_FILE = '/home/sengzi/smart_meeting/meeting/credentials.json'
 API_NAME = 'calendar'
 API_VERSION = 'v3'
 SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 def main_page(request):
-
+    print(BASE_DIR)
     return render(request, 'meeting/index.html',{
 
     })
