@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from pathlib import Path
 import datetime
 import requests
 import json
