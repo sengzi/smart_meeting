@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-gyd4x*+7)4ff5q_$i$z4=o(a7x0w8u5t3xf_qiq%d2d-cvkt6y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1',"smartmeeting.tplinkdns.com"]
+ALLOWED_HOSTS = ['127.0.0.1',"smartmeeting99.herokuapp.com"]
 
 
 # Application definition
