@@ -9,6 +9,7 @@ import requests
 import json
 import random
 import ast
+import webbrowser
 from datetime import date, timedelta
 from django.db.models import Q
 from .models import Member, Event, Event_Date, Event_Member,Event_Voting,MemberCalendar
@@ -34,6 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 def main_page(request):
+    webbrowser.open('https://www.youtube.com/')
     return render(request, 'meeting/index.html',{
 
     })
