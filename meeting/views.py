@@ -35,7 +35,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 def main_page(request):
-    webbrowser.open('https://www.youtube.com/')
     return render(request, 'meeting/index.html',{
 
     })
