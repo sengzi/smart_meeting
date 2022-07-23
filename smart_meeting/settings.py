@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-gyd4x*+7)4ff5q_$i$z4=o(a7x0w8u5t3xf_qiq%d2d-cvkt6y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.68.115','147.158.244.237',"japanese518.tplinkdns.com"]
+ALLOWED_HOSTS = ['192.168.68.115','147.158.244.237',"smartmeeting.tplinkdns.com"]
 
 
 # Application definition
@@ -135,6 +135,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # During development only
+# if DEBUG:
+#     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # During development only
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = '1181203438@student.mmu.edu.my'
+EMAIL_HOST_PASSWORD = 'onG@051801'
 
