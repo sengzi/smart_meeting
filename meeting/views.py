@@ -24,8 +24,8 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-# CLIENT_SECRET_FILE = '/home/sengzi/smart_meeting/meeting/credentials.json'
-CLIENT_SECRET_FILE = 'C:/Users/Seng Zi/Desktop/smart_meeting/meeting/credentials.json'
+CLIENT_SECRET_FILE = '/home/sengzi/smart_meeting/meeting/credentials.json'
+#CLIENT_SECRET_FILE = 'C:/Users/Seng Zi/Desktop/smart_meeting/meeting/credentials.json'
 API_NAME = 'calendar'
 API_VERSION = 'v3'
 SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
